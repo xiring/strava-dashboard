@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Athlete {
+  id                      Int      @id
+  username                String?
+  firstname               String
+  lastname                String
+  profile                 String?
+  profile_medium          String?
+  city                    String?
+  state                   String?
+  country                 String?
+  sex                     String?
+  weight                  Float?
+  follower_count          Int      @default(0)
+  friend_count            Int      @default(0)
+  measurement_preference  String?
+  ftp                     Int?
+  updated_at              DateTime @default(now()) @updatedAt
+  createdAt               DateTime @default(now())
+
+  @@map("athletes")
+}
+
+model Activity {
+  id                    String   @id
+  name                  String
+  distance              Float
+  moving_time           Int
+  elapsed_time          Int
+  total_elevation_gain  Float
+  type                  String
+  start_date            String
+  start_date_local      String
+  timezone              String?
+  average_speed         Float
+  max_speed             Float?
+  average_cadence       Float?
+  average_heartrate     Float?
+  max_heartrate         Float?
+  elev_high             Float?
+  elev_low              Float?
+  calories              Int?
+  achievement_count     Int      @default(0)
+  kudos_count           Int      @default(0)
+  comment_count         Int      @default(0)
+  athlete_count         Int      @default(0)
+  summary_polyline      String?
+  polyline              String?
+  splits_metric         String?
+  splits_standard       String?
+  notes                 String?
+  tags                  String?
+  gear_id               String?
+  weather_data          String?
+  synced_at             DateTime @default(now())
+  updated_at            DateTime @default(now()) @updatedAt
+  createdAt             DateTime @default(now())
+
+  gear                  Gear?    @relation(fields: [gear_id], references: [id], onDelete: SetNull)
+
+  @@index([start_date])
+  @@index([type])
+  @@index([gear_id])
+  @@map("activities")
+}
+
+model AthleteStats {
+  id                        Int      @id @default(1)
+  athlete_id                Int      @unique
+  biggest_ride_distance     Float
+  biggest_climb_elevation_gain Float
+  recent_ride_totals        String
+  all_ride_totals           String
+  recent_run_totals         String
+  all_run_totals            String
+  recent_swim_totals        String
+  all_swim_totals           String
+  ytd_ride_totals           String
+  ytd_run_totals            String
+  ytd_swim_totals           String
+  updated_at                DateTime @default(now()) @updatedAt
+  createdAt                 DateTime @default(now())
+
+  @@map("athlete_stats")
+}
+
+model SyncLog {
+  id          Int      @id @default(autoincrement())
+  sync_type   String
+  status      String
+  items_synced Int     @default(0)
+  error_message String?
+  synced_at   DateTime @default(now())
+
+  @@index([sync_type])
+  @@index([synced_at])
+  @@map("sync_logs")
+}
+
+model Gear {
+  id              String    @id @default(uuid())
+  name            String
+  type            String
+  brand           String?
+  model           String?
+  distance        Float     @default(0)
+  purchase_date   DateTime?
+  purchase_price  Float?
+  notes           String?
+  athlete_id      Int
+  is_active       Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  activities      Activity[]
+
+  @@index([athlete_id])
+  @@index([type])
+  @@map("gear")
+}
+
+model BestEffort {
+  id              Int       @id @default(autoincrement())
+  athlete_id      Int
+  distance        Float
+  time            Int
+  activity_id     String
+  activity_date   String
+  pace            Float?
+  speed           Float?
+  createdAt       DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  @@unique([athlete_id, distance])
+  @@index([athlete_id])
+  @@index([distance])
+  @@map("best_efforts")
+}
+
+model Route {
+  id              String    @id @default(uuid())
+  name            String
+  description     String?
+  polyline        String
+  distance        Float
+  elevation_gain  Float?
+  athlete_id      Int
+  is_public       Boolean   @default(false)
+  is_favorite     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  @@index([athlete_id])
+  @@map("routes")
+}

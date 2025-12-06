@@ -17,7 +17,7 @@ export default function StatsCard({ title, value, unit, icon }: StatsCardProps) 
           </p>
         </div>
         {icon && (
-          <div className="text-strava-orange text-3xl">
+          <div className="text-palette-dark text-3xl">
             {icon}
           </div>
         )}

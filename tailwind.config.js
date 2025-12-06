@@ -12,6 +12,12 @@ module.exports = {
         strava: {
           orange: '#FC4C02',
         },
+        palette: {
+          light: '#FBDB93',
+          medium: '#BE5B50',
+          dark: '#8A2D3B',
+          darkest: '#641B2E',
+        },
       },
     },
   },

@@ -156,7 +156,7 @@ export default function GoalsPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading goals...</p>
         </div>
       </div>
@@ -171,7 +171,7 @@ export default function GoalsPage() {
         actions={
           <button
             onClick={() => setShowAddGoal(true)}
-            className="px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors flex items-center space-x-2"
+            className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors flex items-center space-x-2"
           >
             <span>+</span>
             <span className="hidden sm:inline">Add Goal</span>
@@ -236,7 +236,7 @@ export default function GoalsPage() {
               <div className="flex items-end">
                 <button
                   onClick={saveGoal}
-                  className="w-full px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+                  className="w-full px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
                 >
                   Save Goal
                 </button>
@@ -258,7 +258,7 @@ export default function GoalsPage() {
             </p>
             <button
               onClick={() => setShowAddGoal(true)}
-              className="px-6 py-3 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
             >
               Create Goal
             </button>
@@ -268,7 +268,7 @@ export default function GoalsPage() {
             {goals.map((goal) => (
               <div
                 key={goal.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-strava-orange"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-palette-light"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -302,7 +302,7 @@ export default function GoalsPage() {
                         goal.progress >= 100
                           ? 'bg-green-500'
                           : goal.progress >= 75
-                          ? 'bg-strava-orange'
+                          ? 'bg-palette-light'
                           : 'bg-blue-500'
                       }`}
                       style={{ width: `${Math.min(goal.progress, 100)}%` }}

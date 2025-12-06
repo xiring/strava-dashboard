@@ -55,7 +55,7 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Advanced Filters</h3>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-strava-orange hover:text-orange-600 font-medium"
+          className="text-palette-dark hover:text-palette-darkest font-medium"
         >
           {isOpen ? 'Hide' : 'Show'} Filters
         </button>
@@ -80,7 +80,7 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
                   }}
                   className={`px-3 py-1 rounded-full text-sm transition-colors ${
                     filters.activityTypes.includes(type)
-                      ? 'bg-strava-orange text-white'
+                      ? 'bg-palette-light text-palette-darkest'
                       : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
                 >

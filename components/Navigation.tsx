@@ -109,7 +109,7 @@ export default function Navigation() {
               onClick={() => setOpenDropdown(openDropdown === group.label ? null : group.label)}
               className={`px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all flex items-center space-x-1.5 ${
                 isGroupActive(group)
-                  ? 'bg-strava-orange text-white'
+                  ? 'bg-palette-light text-palette-darkest'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
               aria-expanded={openDropdown === group.label}
@@ -141,7 +141,7 @@ export default function Navigation() {
                     }}
                     className={`flex items-center space-x-3 px-4 py-2 text-sm transition-colors ${
                       isActive(item.href)
-                        ? 'bg-strava-orange text-white'
+                        ? 'bg-palette-light text-palette-darkest'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
                   >
@@ -207,7 +207,7 @@ export default function Navigation() {
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                         isActive(item.href)
-                          ? 'bg-strava-orange text-white'
+                          ? 'bg-palette-light text-palette-darkest'
                           : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >

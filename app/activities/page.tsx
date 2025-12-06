@@ -182,7 +182,7 @@ export default function AllActivitiesPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activities...</p>
         </div>
       </div>
@@ -197,7 +197,7 @@ export default function AllActivitiesPage() {
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
           <Link
             href="/"
-            className="inline-block bg-strava-orange hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+            className="inline-block bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold py-2 px-6 rounded-lg transition-colors"
           >
             Back to Dashboard
           </Link>
@@ -235,7 +235,7 @@ export default function AllActivitiesPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search activities..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-strava-orange focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               />
             </div>
 
@@ -247,7 +247,7 @@ export default function AllActivitiesPage() {
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as ActivityType)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-strava-orange focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               >
                 {activityTypes.map((type) => (
                   <option key={type} value={type}>
@@ -265,7 +265,7 @@ export default function AllActivitiesPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-strava-orange focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               >
                 <option value="date_desc">Date (Newest First)</option>
                 <option value="date_asc">Date (Oldest First)</option>
@@ -328,7 +328,7 @@ export default function AllActivitiesPage() {
                         onClick={() => setCurrentPage(pageNum)}
                         className={`px-4 py-2 rounded-lg transition-colors ${
                           currentPage === pageNum
-                            ? 'bg-strava-orange text-white'
+                            ? 'bg-palette-light text-palette-darkest'
                             : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                         }`}
                       >

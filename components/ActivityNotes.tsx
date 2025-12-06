@@ -68,7 +68,7 @@ export default function ActivityNotes({ activityId, initialNotes = '', initialTa
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={4}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-strava-orange focus:border-transparent"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
           placeholder="Add your notes about this activity..."
         />
       </div>
@@ -84,7 +84,7 @@ export default function ActivityNotes({ activityId, initialNotes = '', initialTa
           {tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-strava-orange text-white"
+              className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-palette-light text-palette-darkest"
             >
               {tag}
               <button
@@ -106,7 +106,7 @@ export default function ActivityNotes({ activityId, initialNotes = '', initialTa
             onChange={(e) => setNewTag(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addTag()}
             placeholder="Add a tag..."
-            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-strava-orange focus:border-transparent"
+            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
           />
           <button
             onClick={addTag}
@@ -142,7 +142,7 @@ export default function ActivityNotes({ activityId, initialNotes = '', initialTa
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-6 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? 'Saving...' : 'Save Notes & Tags'}
         </button>

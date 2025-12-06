@@ -53,7 +53,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 this.setState({ hasError: false, error: null });
                 window.location.reload();
               }}
-              className="px-6 py-3 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
             >
               Reload Page
             </button>

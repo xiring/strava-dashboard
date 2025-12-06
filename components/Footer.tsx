@@ -12,8 +12,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex flex-col mb-4">
-              <h2 className="text-xl font-bold text-strava-orange leading-tight">Strava</h2>
-              <span className="text-xs text-strava-orange font-medium">Dashboard</span>
+              <h2 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h2>
+              <span className="text-xs text-palette-dark font-medium">Dashboard</span>
             </Link>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Your personal Strava activity tracker with advanced analytics, training insights, and more.
@@ -23,7 +23,7 @@ export default function Footer() {
                 href="https://www.strava.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-strava-orange dark:text-gray-400 dark:hover:text-strava-orange transition-colors"
+                className="text-gray-500 hover:text-palette-dark dark:text-gray-400 dark:hover:text-palette-dark transition-colors"
                 aria-label="Strava Website"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -42,7 +42,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Dashboard
                 </Link>
@@ -50,7 +50,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/activities"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Activities
                 </Link>
@@ -58,7 +58,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/statistics"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Statistics
                 </Link>
@@ -66,7 +66,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/goals"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Goals
                 </Link>
@@ -83,7 +83,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/settings"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Settings
                 </Link>
@@ -93,7 +93,7 @@ export default function Footer() {
                   href="https://www.strava.com/api"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Strava API
                 </a>
@@ -103,7 +103,7 @@ export default function Footer() {
                   href="https://developers.strava.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-strava-orange transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
                 >
                   Developer Docs
                 </a>
@@ -125,7 +125,7 @@ export default function Footer() {
                   href="https://www.strava.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-strava-orange hover:text-orange-600 font-semibold"
+                  className="text-palette-dark hover:text-palette-darkest font-semibold"
                 >
                   Strava API
                 </a>

@@ -37,7 +37,7 @@ export default function AccessibilityControls() {
                 onClick={() => setFontSize(size)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   fontSize === size
-                    ? 'bg-strava-orange text-white'
+                    ? 'bg-palette-light text-palette-darkest'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -53,7 +53,7 @@ export default function AccessibilityControls() {
               type="checkbox"
               checked={highContrast}
               onChange={(e) => setHighContrast(e.target.checked)}
-              className="w-5 h-5 text-strava-orange border-gray-300 rounded focus:ring-strava-orange"
+              className="w-5 h-5 text-palette-dark border-gray-300 rounded focus:ring-palette-light"
             />
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               High Contrast Mode

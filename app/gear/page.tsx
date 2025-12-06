@@ -91,7 +91,7 @@ export default function GearPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading gear...</p>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function GearPage() {
         actions={
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
           >
             {showAddForm ? 'Cancel' : '+ Add Gear'}
           </button>
@@ -172,7 +172,7 @@ export default function GearPage() {
               <button
                 onClick={handleAddGear}
                 disabled={!newGear.name}
-                className="px-6 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Add Gear
               </button>
@@ -185,7 +185,7 @@ export default function GearPage() {
           {gear.map((item) => (
             <div
               key={item.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-strava-orange"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-palette-light"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -237,7 +237,7 @@ export default function GearPage() {
             </p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="px-6 py-3 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
             >
               Add Your First Gear
             </button>

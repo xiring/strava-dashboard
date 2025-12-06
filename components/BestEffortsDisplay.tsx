@@ -70,7 +70,7 @@ export default function BestEffortsDisplay({ bestEfforts }: BestEffortsDisplayPr
                   <td className="py-3 px-4">
                     <Link
                       href={`/activities/${effort.activityId}`}
-                      className="text-strava-orange hover:text-orange-600 font-medium truncate max-w-xs block"
+                      className="text-palette-dark hover:text-palette-darkest font-medium truncate max-w-xs block"
                       title={effort.activityName}
                     >
                       {effort.activityName}

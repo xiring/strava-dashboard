@@ -100,7 +100,7 @@ export default function RoutesPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading routes...</p>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function RoutesPage() {
         actions={
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
           >
             {showAddForm ? 'Cancel' : '+ New Route'}
           </button>
@@ -192,7 +192,7 @@ export default function RoutesPage() {
                     type="checkbox"
                     checked={newRoute.is_favorite}
                     onChange={(e) => setNewRoute({ ...newRoute, is_favorite: e.target.checked })}
-                    className="w-4 h-4 text-strava-orange border-gray-300 rounded focus:ring-strava-orange"
+                    className="w-4 h-4 text-palette-dark border-gray-300 rounded focus:ring-palette-light"
                   />
                   <span className="text-sm text-gray-700 dark:text-gray-300">Favorite</span>
                 </label>
@@ -201,7 +201,7 @@ export default function RoutesPage() {
                     type="checkbox"
                     checked={newRoute.is_public}
                     onChange={(e) => setNewRoute({ ...newRoute, is_public: e.target.checked })}
-                    className="w-4 h-4 text-strava-orange border-gray-300 rounded focus:ring-strava-orange"
+                    className="w-4 h-4 text-palette-dark border-gray-300 rounded focus:ring-palette-light"
                   />
                   <span className="text-sm text-gray-700 dark:text-gray-300">Public</span>
                 </label>
@@ -211,7 +211,7 @@ export default function RoutesPage() {
               <button
                 onClick={handleAddRoute}
                 disabled={!newRoute.name || !newRoute.distance}
-                className="px-6 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Create Route
               </button>
@@ -224,7 +224,7 @@ export default function RoutesPage() {
           {routes.map((route) => (
             <div
               key={route.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-strava-orange cursor-pointer hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-palette-light cursor-pointer hover:shadow-lg transition-shadow"
               onClick={() => setSelectedRoute(route)}
             >
               <div className="flex items-start justify-between mb-4">
@@ -265,7 +265,7 @@ export default function RoutesPage() {
             </p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="px-6 py-3 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
             >
               Create Your First Route
             </button>

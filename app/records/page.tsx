@@ -105,7 +105,7 @@ export default function RecordsPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading records...</p>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.longestRun.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>
@@ -175,7 +175,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.fastestRun.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>
@@ -201,7 +201,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.longestRide.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>
@@ -227,7 +227,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.fastestRide.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>
@@ -256,7 +256,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.mostElevation.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>
@@ -285,7 +285,7 @@ export default function RecordsPage() {
                 </div>
                 <Link
                   href={`/activities/${records.longestDuration.id}`}
-                  className="text-sm text-strava-orange hover:text-orange-600 font-medium"
+                  className="text-sm text-palette-dark hover:text-palette-darkest font-medium"
                 >
                   View Activity →
                 </Link>

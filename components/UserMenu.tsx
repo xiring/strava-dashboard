@@ -53,7 +53,7 @@ export default function UserMenu({ athlete }: UserMenuProps) {
       {/* User Profile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-strava-orange focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800"
+        className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-palette-light focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800"
         aria-label="User menu"
         aria-expanded={isOpen}
       >
@@ -61,7 +61,7 @@ export default function UserMenu({ athlete }: UserMenuProps) {
           <img
             src={athlete.profile_medium}
             alt={athlete.firstname}
-            className="w-10 h-10 rounded-full border-2 border-strava-orange"
+            className="w-10 h-10 rounded-full border-2 border-palette-light"
           />
         )}
         <div className="hidden sm:block text-left">

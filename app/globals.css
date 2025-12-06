@@ -3,16 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 100, 27, 46;
+  --background-start-rgb: 251, 219, 147;
+  --background-end-rgb: 190, 91, 80;
+  --palette-light: #FBDB93;
+  --palette-medium: #BE5B50;
+  --palette-dark: #8A2D3B;
+  --palette-darkest: #641B2E;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 251, 219, 147;
+    --background-start-rgb: 100, 27, 46;
+    --background-end-rgb: 138, 45, 59;
   }
 }
 
@@ -20,10 +24,10 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
-      transparent,
+      rgb(var(--background-start-rgb)),
       rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    );
+  min-height: 100vh;
 }
 
 @layer utilities {

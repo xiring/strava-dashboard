@@ -124,7 +124,7 @@ export default function ActivityDetailPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activity...</p>
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function ActivityDetailPage() {
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error || 'Activity not found'}</p>
           <Link
             href="/"
-            className="inline-block bg-strava-orange hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+            className="inline-block bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold py-2 px-6 rounded-lg transition-colors"
           >
             Back to Dashboard
           </Link>
@@ -373,7 +373,7 @@ export default function ActivityDetailPage() {
             href={`https://www.strava.com/activities/${activity.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-strava-orange hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="inline-block bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold py-3 px-6 rounded-lg transition-colors"
           >
             View on Strava →
           </a>

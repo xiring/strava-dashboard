@@ -51,7 +51,7 @@ export default function WeatherDisplay({ lat, lon, timestamp }: WeatherDisplayPr
   if (loading) {
     return (
       <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-strava-orange"></div>
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-palette-light"></div>
         <span className="text-sm">Loading weather...</span>
       </div>
     );

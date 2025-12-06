@@ -246,7 +246,7 @@ export default function ActivityMap({
           <div className="flex items-center space-x-2">
             <button
               onClick={togglePlayback}
-              className="px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors flex items-center space-x-2"
+              className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest rounded-lg font-semibold transition-colors flex items-center space-x-2"
             >
               {isPlaying ? (
                 <>
@@ -274,7 +274,7 @@ export default function ActivityMap({
                   onClick={() => setPlaybackSpeed(speed)}
                   className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
                     playbackSpeed === speed
-                      ? 'bg-strava-orange text-white'
+                      ? 'bg-palette-light text-palette-darkest'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
                   }`}
                 >
@@ -299,7 +299,7 @@ export default function ActivityMap({
           step="0.001"
           value={playbackProgress}
           onChange={handleProgressChange}
-          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-strava-orange"
+          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-palette-light"
         />
       </div>
 

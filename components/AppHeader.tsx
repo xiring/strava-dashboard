@@ -17,8 +17,8 @@ export default function AppHeader({ athlete }: AppHeaderProps) {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex flex-col">
-              <h1 className="text-xl font-bold text-strava-orange leading-tight">Strava</h1>
-              <span className="text-xs text-strava-orange font-medium">Dashboard</span>
+              <h1 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h1>
+              <span className="text-xs text-palette-dark font-medium">Dashboard</span>
             </Link>
           </div>
 

@@ -128,7 +128,7 @@ export default function ActivityHeatmap({ activities, year }: ActivityHeatmapPro
                 return (
                   <div
                     key={dateKey}
-                    className={`w-3 h-3 rounded-sm ${getColorIntensity(distance)} cursor-pointer hover:ring-2 hover:ring-strava-orange transition-all`}
+                    className={`w-3 h-3 rounded-sm ${getColorIntensity(distance)} cursor-pointer hover:ring-2 hover:ring-palette-dark transition-all`}
                     title={`${formatDate(date)}: ${count} activity${count !== 1 ? 'ies' : ''}, ${(distance / 1000).toFixed(1)} km`}
                   />
                 );

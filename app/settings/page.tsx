@@ -95,7 +95,7 @@ export default function SettingsPage() {
 
             <button
               onClick={savePreferences}
-              className="px-6 py-3 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
             >
               Save Preferences
             </button>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
                     }
                   }
                 }}
-                className="px-4 py-2 bg-strava-orange hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+                className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
               >
                 Sync All Activities
               </button>
@@ -212,7 +212,7 @@ export default function SettingsPage() {
                 href="https://www.strava.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-strava-orange hover:text-orange-600"
+                className="text-palette-dark hover:text-palette-darkest"
               >
                 Powered by Strava API
               </a>

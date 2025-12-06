@@ -13,7 +13,7 @@ export default function StreakDisplay({ streaks }: StreakDisplayProps) {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Current Streak */}
-        <div className="text-center p-4 bg-gradient-to-br from-strava-orange to-orange-600 rounded-lg">
+        <div className="text-center p-4 bg-gradient-to-br from-palette-medium to-palette-darkest rounded-lg">
           <div className="text-sm text-white/80 mb-1">Current Streak</div>
           <div className="text-4xl font-bold text-white mb-2">{streaks.current}</div>
           <div className="text-sm text-white/80">

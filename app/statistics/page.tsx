@@ -141,7 +141,7 @@ export default function StatisticsPage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading statistics...</p>
         </div>
       </div>
@@ -171,7 +171,7 @@ export default function StatisticsPage() {
                 onClick={() => setTimeRange(range)}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                   timeRange === range
-                    ? 'bg-strava-orange text-white'
+                    ? 'bg-palette-light text-palette-darkest'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
               >

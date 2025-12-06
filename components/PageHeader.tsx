@@ -18,7 +18,7 @@ export default function PageHeader({ title, actions, showBack = true }: PageHead
             {showBack && (
               <Link
                 href="/"
-                className="text-strava-orange hover:text-orange-600 font-semibold transition-colors flex items-center space-x-1"
+                className="text-palette-dark hover:text-palette-darkest font-semibold transition-colors flex items-center space-x-1"
               >
                 <span>←</span>
                 <span className="hidden sm:inline">Back</span>

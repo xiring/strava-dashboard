@@ -174,7 +174,7 @@ export default function PaceBreakdown({ splits, activityType, averageSpeed }: Pa
                     isFaster 
                       ? 'text-green-600 dark:text-green-400' 
                       : paceValue === averagePace
-                      ? 'text-strava-orange'
+                      ? 'text-palette-dark'
                       : 'text-red-600 dark:text-red-400'
                   }`}>
                     {formatPace(pace, activityType)}
@@ -205,7 +205,7 @@ export default function PaceBreakdown({ splits, activityType, averageSpeed }: Pa
               <td className="py-3 px-4 text-right text-gray-900 dark:text-white">
                 {formatDuration(splits.reduce((sum, s) => sum + s.moving_time, 0))}
               </td>
-              <td className="py-3 px-4 text-right text-strava-orange">
+              <td className="py-3 px-4 text-right text-palette-dark">
                 {formatPace(averageSpeed, activityType)}
               </td>
               <td className="py-3 px-4 text-right text-gray-900 dark:text-white">

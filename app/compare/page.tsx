@@ -67,7 +67,7 @@ export default function ComparePage() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activities...</p>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function ComparePage() {
                   onClick={() => toggleActivity(activity.id)}
                   className={`p-4 rounded-lg border-2 text-left transition-all ${
                     isSelected
-                      ? 'border-strava-orange bg-orange-50 dark:bg-orange-900/20'
+                      ? 'border-palette-light bg-palette-light/20 dark:bg-palette-dark/20'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                   disabled={!isSelected && selectedActivities.length >= 2}
@@ -102,7 +102,7 @@ export default function ComparePage() {
                     <span className="font-semibold text-gray-900 dark:text-white truncate">
                       {activity.name}
                     </span>
-                    {isSelected && <span className="text-strava-orange">✓</span>}
+                    {isSelected && <span className="text-palette-dark">✓</span>}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
                     {new Date(activity.start_date_local).toLocaleDateString()}
@@ -158,7 +158,7 @@ export default function ComparePage() {
                     </div>
                     <Link
                       href={`/activities/${activity.id}`}
-                      className="block mt-4 text-center text-strava-orange hover:text-orange-600 font-medium"
+                      className="block mt-4 text-center text-palette-dark hover:text-palette-darkest font-medium"
                     >
                       View Details →
                     </Link>

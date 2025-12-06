@@ -106,7 +106,7 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-strava-orange mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-medium mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function Home() {
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
           <div className="mb-6">
-            <h1 className="text-4xl font-bold text-strava-orange mb-2">Strava Dashboard</h1>
+            <h1 className="text-4xl font-bold text-palette-darkest mb-2">Strava Dashboard</h1>
             <p className="text-gray-600 dark:text-gray-400">
               Connect your Strava account to view your activities and statistics
             </p>
@@ -130,7 +130,7 @@ export default function Home() {
           )}
           <button
             onClick={handleLogin}
-            className="w-full bg-strava-orange hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="w-full bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold py-3 px-6 rounded-lg transition-colors"
           >
             Connect with Strava
           </button>
@@ -166,8 +166,8 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex flex-col">
-                <h1 className="text-xl font-bold text-strava-orange leading-tight">Strava</h1>
-                <span className="text-xs text-strava-orange font-medium">Dashboard</span>
+                <h1 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h1>
+                <span className="text-xs text-palette-dark font-medium">Dashboard</span>
               </Link>
             </div>
 

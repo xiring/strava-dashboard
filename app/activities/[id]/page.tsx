@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
 import ActivityMap from '@/components/ActivityMap';
+import ActivityMap3D from '@/components/ActivityMap3D';
 import PaceBreakdown from '@/components/PaceBreakdown';
 import ActivityNotes from '@/components/ActivityNotes';
 import { decodePolyline } from '@/lib/polyline';
@@ -78,7 +79,42 @@ export default function ActivityDetailPage() {
   const [notes, setNotes] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [mapMode, setMapMode] = useState<'2d' | '3d'>('2d');
   const [error, setError] = useState<string | null>(null);
+
+  const handleDownloadGpx = (polyline?: string, name?: string, startDate?: string) => {
+    if (!polyline) return;
+    const coords = decodePolyline(polyline);
+    if (!coords.length) return;
+
+    const safeName = (name || 'activity').replace(/[^\w\d-_]+/g, '_');
+    const time = startDate ? new Date(startDate).toISOString() : new Date().toISOString();
+
+    const gpx =
+      `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<gpx version="1.1" creator="strava-dashboard" xmlns="http://www.topografix.com/GPX/1/1">\n` +
+      `  <metadata>\n` +
+      `    <name>${safeName}</name>\n` +
+      `    <time>${time}</time>\n` +
+      `  </metadata>\n` +
+      `  <trk>\n` +
+      `    <name>${safeName}</name>\n` +
+      `    <trkseg>\n` +
+      coords.map(([lat, lon]) => `      <trkpt lat="${lat}" lon="${lon}"></trkpt>`).join('\n') +
+      `\n    </trkseg>\n` +
+      `  </trk>\n` +
+      `</gpx>`;
+
+    const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${safeName}.gpx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -178,22 +214,63 @@ export default function ActivityDetailPage() {
         {/* Activity Map */}
         {activity.map?.summary_polyline && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Route Map</h2>
+            <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Route Map</h2>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() =>
+                    handleDownloadGpx(activity.map?.summary_polyline, activity.name, activity.start_date)
+                  }
+                  className="h-10 px-3 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  title="Download GPX"
+                >
+                  <span className="text-lg leading-none">⬇</span>
+                  <span>GPX</span>
+                </button>
+                <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={() => setMapMode('2d')}
+                    className={`h-10 px-4 text-sm font-semibold transition-colors ${
+                      mapMode === '2d'
+                        ? 'bg-palette-light text-palette-darkest'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    aria-pressed={mapMode === '2d'}
+                  >
+                    2D
+                  </button>
+                  <button
+                    onClick={() => setMapMode('3d')}
+                    className={`h-10 px-4 text-sm font-semibold transition-colors ${
+                      mapMode === '3d'
+                        ? 'bg-palette-light text-palette-darkest'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    title="3D replay (MapLibre terrain)"
+                    aria-pressed={mapMode === '3d'}
+                  >
+                    3D (beta)
+                  </button>
+                </div>
+              </div>
+            </div>
             {(() => {
               const coordinates = decodePolyline(activity.map.summary_polyline);
               const startCoords = coordinates[0];
               const endCoords = coordinates[coordinates.length - 1];
-              return (
-                <ActivityMap
-                  polyline={activity.map.summary_polyline}
-                  startLat={startCoords?.[0]}
-                  startLng={startCoords?.[1]}
-                  endLat={endCoords?.[0]}
-                  endLng={endCoords?.[1]}
-                  elapsedTime={activity.elapsed_time}
-                  distance={activity.distance}
-                />
-              );
+              const mapProps = {
+                polyline: activity.map.summary_polyline,
+                startLat: startCoords?.[0],
+                startLng: startCoords?.[1],
+                endLat: endCoords?.[0],
+                endLng: endCoords?.[1],
+                elapsedTime: activity.elapsed_time,
+                distance: activity.distance,
+              };
+              if (mapMode === '3d') {
+                return <ActivityMap3D {...mapProps} />;
+              }
+              return <ActivityMap {...mapProps} />;
             })()}
           </div>
         )}

@@ -274,11 +274,11 @@ export default function ActivityMap({
     >
       {/* Playback Controls */}
       <div className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <div className="flex items-center flex-wrap gap-3">
             <button
               onClick={togglePlayback}
-              className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest rounded-lg font-semibold transition-colors flex items-center space-x-2"
+              className="h-12 px-5 inline-flex items-center gap-2 bg-palette-light hover:bg-palette-medium text-palette-darkest rounded-lg font-semibold transition-colors"
             >
               {isPlaying ? (
                 <>
@@ -294,17 +294,17 @@ export default function ActivityMap({
             </button>
             <button
               onClick={resetPlayback}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors"
+              className="h-12 px-5 inline-flex items-center gap-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors"
             >
               ↺ Reset
             </button>
-            <div className="flex items-center space-x-2 ml-4 flex-wrap">
+            <div className="flex items-center gap-2 ml-2 flex-wrap">
               <span className="text-sm text-gray-600 dark:text-gray-400">Speed:</span>
               {[1, 2, 4, 8, 20, 50, 100].map((speed) => (
                 <button
                   key={speed}
                   onClick={() => setPlaybackSpeed(speed)}
-                  className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
+                  className={`h-10 px-4 rounded text-sm font-semibold transition-colors ${
                     playbackSpeed === speed
                       ? 'bg-palette-light text-palette-darkest'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -315,8 +315,8 @@ export default function ActivityMap({
               ))}
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center flex-wrap gap-3">
+            <div className="text-sm text-gray-600 dark:text-gray-400 leading-tight">
               {formatTime(currentTime)} / {elapsedTime ? formatTime(elapsedTime) : '--:--'}
               {distance && (
                 <span className="ml-2">
@@ -326,7 +326,7 @@ export default function ActivityMap({
             </div>
             <button
               onClick={toggleFullscreen}
-              className="px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors flex items-center space-x-2"
+              className="h-12 px-4 inline-flex items-center gap-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors"
               title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             >
               {isFullscreen ? (

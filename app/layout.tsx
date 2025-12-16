@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   description: 'Comprehensive Strava activity dashboard with analytics, maps, goals, and more',
   keywords: 'Strava, fitness, running, cycling, activities, dashboard, analytics',
   authors: [{ name: 'Strava Dashboard' }],
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
   themeColor: '#FC4C02',
 }
 
@@ -26,7 +30,6 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#FC4C02" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Strava Dashboard" />

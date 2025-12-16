@@ -274,7 +274,7 @@ export default function ActivityMap({
     >
       {/* Playback Controls */}
       <div className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-3">
           <div className="flex items-center flex-wrap gap-3">
             <button
               onClick={togglePlayback}
@@ -315,7 +315,7 @@ export default function ActivityMap({
               ))}
             </div>
           </div>
-          <div className="flex items-center flex-wrap gap-3">
+          <div className="flex items-center flex-wrap gap-3 md:justify-end">
             <div className="text-sm text-gray-600 dark:text-gray-400 leading-tight">
               {formatTime(currentTime)} / {elapsedTime ? formatTime(elapsedTime) : '--:--'}
               {distance && (

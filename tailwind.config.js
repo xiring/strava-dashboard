@@ -10,13 +10,13 @@ module.exports = {
     extend: {
       colors: {
         strava: {
-          orange: '#FC4C02',
+          orange: '#F49B00',
         },
         palette: {
-          light: '#FBDB93',
-          medium: '#BE5B50',
-          dark: '#8A2D3B',
-          darkest: '#641B2E',
+          light: '#F8CB74',    // light amber (bottom stripe)
+          medium: '#F49B00',   // vibrant amber (third stripe)
+          dark: '#A86E1E',     // warm brown-orange (second stripe)
+          darkest: '#7B5632',  // deep brown (top stripe)
         },
       },
     },

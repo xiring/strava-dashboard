@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { decodePolyline } from '@/lib/polyline';
 
@@ -57,6 +57,8 @@ export default function ActivityMap({
   const [playbackProgress, setPlaybackProgress] = useState(0); // 0 to 1
   const [playbackSpeed, setPlaybackSpeed] = useState(1); // 1x, 2x, 4x, etc.
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -176,6 +178,33 @@ export default function ActivityMap({
     setIsPlaying(false);
   };
 
+  // Handle fullscreen toggle
+  const toggleFullscreen = async () => {
+    if (!mapContainerRef.current) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        await mapContainerRef.current.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error('Error toggling fullscreen:', error);
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   // Calculate current distance and time
   const currentDistance = useMemo(() => {
     if (distance && cumulativeDistances.length > 0) {
@@ -239,7 +268,10 @@ export default function ActivityMap({
   }
 
   return (
-    <div className="w-full rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+    <div 
+      ref={mapContainerRef}
+      className={`w-full rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900' : ''}`}
+    >
       {/* Playback Controls */}
       <div className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-3">
@@ -283,13 +315,32 @@ export default function ActivityMap({
               ))}
             </div>
           </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            {formatTime(currentTime)} / {elapsedTime ? formatTime(elapsedTime) : '--:--'}
-            {distance && (
-              <span className="ml-2">
-                ({currentDistance.toFixed(2)} km / {(distance / 1000).toFixed(2)} km)
-              </span>
-            )}
+          <div className="flex items-center space-x-4">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              {formatTime(currentTime)} / {elapsedTime ? formatTime(elapsedTime) : '--:--'}
+              {distance && (
+                <span className="ml-2">
+                  ({currentDistance.toFixed(2)} km / {(distance / 1000).toFixed(2)} km)
+                </span>
+              )}
+            </div>
+            <button
+              onClick={toggleFullscreen}
+              className="px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors flex items-center space-x-2"
+              title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            >
+              {isFullscreen ? (
+                <>
+                  <span>⤓</span>
+                  <span className="hidden sm:inline">Exit</span>
+                </>
+              ) : (
+                <>
+                  <span>⤢</span>
+                  <span className="hidden sm:inline">Fullscreen</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
         <input
@@ -304,7 +355,7 @@ export default function ActivityMap({
       </div>
 
       {/* Map */}
-      <div className="h-96">
+      <div className={isFullscreen ? 'h-[calc(100vh-120px)]' : 'h-96'}>
         <MapContainer
           center={center}
           zoom={13}

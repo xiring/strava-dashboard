@@ -36,7 +36,7 @@ export default function RateLimitError({ retryAfter, rateLimitUsage, rateLimitLi
           </h3>
           <div className="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
             <p>
-              You've reached the Strava API rate limit. Strava limits API requests to protect their servers.
+              You&apos;ve reached the Strava API rate limit. Strava limits API requests to protect their servers.
             </p>
             {retryAfter && (
               <p className="mt-2 font-semibold">

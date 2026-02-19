@@ -16,6 +16,7 @@ import BestEffortsDisplay from '@/components/BestEffortsDisplay';
 import DashboardWidget from '@/components/DashboardWidget';
 import { calculateStreaks } from '@/lib/streaks';
 import ThisDayLastYear from '@/components/ThisDayLastYear';
+import CumulativeDistanceChart from '@/components/CumulativeDistanceChart';
 import { requestNotificationPermission, scheduleWeeklySummary } from '@/lib/notifications';
 import { storage } from '@/lib/storage';
 
@@ -29,7 +30,7 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(false);
   const [widgets, setWidgets] = useState<string[]>(() => {
     const saved = storage.preferences.get() as any;
-    return saved?.dashboardWidgets || ['stats', 'streaks', 'chart', 'thisDayLastYear', 'activities'];
+    return saved?.dashboardWidgets || ['stats', 'streaks', 'chart', 'cumulativeDistance', 'thisDayLastYear', 'activities'];
   });
 
   useEffect(() => {
@@ -276,6 +277,21 @@ export default function Home() {
               }}
             >
               <ActivityChart activities={activities} />
+            </DashboardWidget>
+          )}
+
+          {widgets.includes('cumulativeDistance') && activities.length > 0 && (
+            <DashboardWidget
+              id="cumulativeDistance"
+              title="Yearly Progress"
+              onRemove={() => {
+                const newWidgets = widgets.filter((w) => w !== 'cumulativeDistance');
+                setWidgets(newWidgets);
+                const prefs = storage.preferences.get() as any;
+                storage.preferences.set({ ...prefs, dashboardWidgets: newWidgets });
+              }}
+            >
+              <CumulativeDistanceChart activities={activities} />
             </DashboardWidget>
           )}
 

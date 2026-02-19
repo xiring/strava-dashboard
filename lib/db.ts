@@ -97,6 +97,7 @@ export class DatabaseService {
       elapsed_time: int(activity.elapsed_time),
       total_elevation_gain: num(activity.total_elevation_gain),
       type: String(activity.type ?? 'Workout'),
+      commute: Boolean((activity as any).commute),
       start_date: String(activity.start_date ?? ''),
       start_date_local: String(activity.start_date_local ?? ''),
       timezone: activity.timezone ? String(activity.timezone) : null,
@@ -169,6 +170,31 @@ export class DatabaseService {
   async getActivitiesCount(type?: string) {
     const where = type && type !== 'All' ? { type } : {};
     return await prisma.activity.count({ where });
+  }
+
+  async getActivityNeighbors(activityId: number): Promise<{ prev: number | null; next: number | null }> {
+    const current = await prisma.activity.findUnique({
+      where: { id: activityId },
+      select: { start_date: true },
+    });
+    if (!current) return { prev: null, next: null };
+
+    const [prevAct, nextAct] = await Promise.all([
+      prisma.activity.findFirst({
+        where: { start_date: { lt: current.start_date } },
+        orderBy: { start_date: 'desc' },
+        select: { id: true },
+      }),
+      prisma.activity.findFirst({
+        where: { start_date: { gt: current.start_date } },
+        orderBy: { start_date: 'asc' },
+        select: { id: true },
+      }),
+    ]);
+    return {
+      prev: prevAct?.id ?? null,
+      next: nextAct?.id ?? null,
+    };
   }
 
   async getLatestActivityDate() {
@@ -252,6 +278,7 @@ export class DatabaseService {
     elapsed_time: number;
     total_elevation_gain: number;
     type: string;
+    commute: boolean;
     start_date: string;
     start_date_local: string;
     timezone: string | null;
@@ -281,6 +308,7 @@ export class DatabaseService {
       elapsed_time: activity.elapsed_time,
       total_elevation_gain: activity.total_elevation_gain,
       type: activity.type,
+      commute: activity.commute ?? false,
       start_date: activity.start_date,
       start_date_local: activity.start_date_local,
       timezone: activity.timezone || '',

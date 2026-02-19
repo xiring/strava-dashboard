@@ -93,6 +93,13 @@ export default function AllActivitiesPage() {
 
     // Apply advanced filters
     if (advancedFilters) {
+      // Commute filter
+      if (advancedFilters.commuteFilter === 'commute') {
+        filtered = filtered.filter((activity) => (activity as any).commute === true);
+      } else if (advancedFilters.commuteFilter === 'non-commute') {
+        filtered = filtered.filter((activity) => (activity as any).commute !== true);
+      }
+
       // Activity types filter
       if (advancedFilters.activityTypes.length > 0) {
         filtered = filtered.filter((activity) =>

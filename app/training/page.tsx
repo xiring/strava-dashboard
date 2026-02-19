@@ -80,12 +80,17 @@ export default function TrainingLoadPage() {
 
         {/* Recovery Recommendation */}
         {recommendation && (
-          <div className={`mb-6 p-6 rounded-lg shadow-md ${
-            recommendation.status === 'overtrained' ? 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800' :
-            recommendation.status === 'tired' ? 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800' :
-            recommendation.status === 'ready' ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800' :
-            'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-          }`}>
+          <div
+            className={
+              recommendation.status === 'overtrained'
+                ? 'mb-6 p-6 rounded-lg shadow-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'
+                : recommendation.status === 'tired'
+                ? 'mb-6 p-6 rounded-lg shadow-md bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
+                : recommendation.status === 'ready'
+                ? 'mb-6 p-6 rounded-lg shadow-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
+                : 'mb-6 p-6 rounded-lg shadow-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+            }
+          >
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
@@ -94,10 +99,16 @@ export default function TrainingLoadPage() {
                 <p className="text-gray-700 dark:text-gray-300 mb-2">{recommendation.message}</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{recommendation.recommendation}</p>
               </div>
-              <div className="text-4xl">
-                {recommendation.status === 'overtrained' ? '⚠️' :
-                 recommendation.status === 'tired' ? '😴' :
-                 recommendation.status === 'ready' ? '✅' : '💪'}
+              <div className="text-right">
+                <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {recommendation.score}/100
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Recovery Score</div>
+                <div className="text-2xl mt-2">
+                  {recommendation.status === 'overtrained' ? '⚠️' :
+                   recommendation.status === 'tired' ? '😴' :
+                   recommendation.status === 'ready' ? '✅' : '💪'}
+                </div>
               </div>
             </div>
           </div>

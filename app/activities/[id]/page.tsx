@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
@@ -11,10 +11,14 @@ import ActivityNotes from '@/components/ActivityNotes';
 import WeatherDisplay from '@/components/WeatherDisplay';
 import FavoriteButton from '@/components/FavoriteButton';
 import SegmentEffortsDisplay from '@/components/SegmentEffortsDisplay';
+import ActivityPhotos from '@/components/ActivityPhotos';
+import ShareableActivityCard from '@/components/ShareableActivityCard';
 import { decodePolyline } from '@/lib/polyline';
 import { getActivityIcon } from '@/lib/activityIcons';
+import { exportToGpx, exportToTcx, downloadFile } from '@/lib/exportFormats';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
+import { storage } from '@/lib/storage';
 
 function formatDistance(meters: number): string {
   const km = meters / 1000;
@@ -73,39 +77,31 @@ export default function ActivityDetailPage() {
   const [loading, setLoading] = useState(true);
   const [mapMode, setMapMode] = useState<'2d' | '3d'>('2d');
   const [error, setError] = useState<string | null>(null);
+  const [showShareCard, setShowShareCard] = useState(false);
+  const [neighbors, setNeighbors] = useState<{ prev: number | null; next: number | null }>({ prev: null, next: null });
+  const [darkMapStyle, setDarkMapStyle] = useState(() => (storage.preferences.get() as any)?.darkMapStyle ?? false);
+
+  const toggleDarkMap = () => {
+    const next = !darkMapStyle;
+    setDarkMapStyle(next);
+    const prefs = storage.preferences.get() as any;
+    storage.preferences.set({ ...prefs, darkMapStyle: next });
+  };
 
   const handleDownloadGpx = (polyline?: string, name?: string, startDate?: string) => {
     if (!polyline) return;
-    const coords = decodePolyline(polyline);
-    if (!coords.length) return;
-
+    const gpx = exportToGpx(polyline, name || 'activity', startDate || new Date().toISOString(), activity?.type);
+    if (!gpx) return;
     const safeName = (name || 'activity').replace(/[^\w\d-_]+/g, '_');
-    const time = startDate ? new Date(startDate).toISOString() : new Date().toISOString();
+    downloadFile(gpx, `${safeName}.gpx`, 'application/gpx+xml');
+  };
 
-    const gpx =
-      `<?xml version="1.0" encoding="UTF-8"?>\n` +
-      `<gpx version="1.1" creator="strava-dashboard" xmlns="http://www.topografix.com/GPX/1/1">\n` +
-      `  <metadata>\n` +
-      `    <name>${safeName}</name>\n` +
-      `    <time>${time}</time>\n` +
-      `  </metadata>\n` +
-      `  <trk>\n` +
-      `    <name>${safeName}</name>\n` +
-      `    <trkseg>\n` +
-      coords.map(([lat, lon]) => `      <trkpt lat="${lat}" lon="${lon}"></trkpt>`).join('\n') +
-      `\n    </trkseg>\n` +
-      `  </trk>\n` +
-      `</gpx>`;
-
-    const blob = new Blob([gpx], { type: 'application/gpx+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${safeName}.gpx`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+  const handleDownloadTcx = (polyline?: string, name?: string, startDate?: string, movingTime?: number, distance?: number) => {
+    if (!polyline || movingTime == null || distance == null) return;
+    const tcx = exportToTcx(polyline, name || 'activity', startDate || new Date().toISOString(), movingTime, distance, activity?.type);
+    if (!tcx) return;
+    const safeName = (name || 'activity').replace(/[^\w\d-_]+/g, '_');
+    downloadFile(tcx, `${safeName}.tcx`, 'application/vnd.garmin.tcx+xml');
   };
 
   useEffect(() => {
@@ -136,6 +132,13 @@ export default function ActivityDetailPage() {
           setTags(notesData.tags || []);
         }
 
+        // Fetch prev/next for keyboard shortcuts
+        const neighborsResponse = await fetch(`/api/activities/${params.id}/neighbors`);
+        if (neighborsResponse.ok) {
+          const neighborsData = await neighborsResponse.json();
+          setNeighbors(neighborsData);
+        }
+
         setLoading(false);
       } catch (err: any) {
         setError(err.message || 'Failed to load activity');
@@ -147,6 +150,22 @@ export default function ActivityDetailPage() {
       fetchData();
     }
   }, [params.id]);
+
+  // Keyboard shortcuts: j = next, k = previous
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === 'j' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        if (neighbors.next) router.push(`/activities/${neighbors.next}`);
+      } else if (e.key === 'k' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        if (neighbors.prev) router.push(`/activities/${neighbors.prev}`);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [neighbors, router]);
 
   if (loading) {
     return (
@@ -183,6 +202,11 @@ export default function ActivityDetailPage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Keyboard shortcut hint */}
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+          <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">j</kbd> next · <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">k</kbd> previous
+        </p>
+
         {/* Activity Header */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
           <div className="flex items-start justify-between mb-4">
@@ -193,10 +217,15 @@ export default function ActivityDetailPage() {
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {activity.name}
                 </h1>
-                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500 dark:text-gray-400 flex-wrap gap-2">
                   <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
                     {activity.type}
                   </span>
+                  {(activity as any).commute && (
+                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-full">
+                      Commute
+                    </span>
+                  )}
                   <span>{formatDate(activity.start_date_local)}</span>
                 </div>
               </div>
@@ -219,6 +248,35 @@ export default function ActivityDetailPage() {
                 >
                   <span className="text-lg leading-none">⬇</span>
                   <span>GPX</span>
+                </button>
+                <button
+                  onClick={() =>
+                    handleDownloadTcx(activity.map?.summary_polyline, activity.name, activity.start_date, activity.moving_time, activity.distance)
+                  }
+                  className="h-10 px-3 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  title="Download TCX"
+                >
+                  <span className="text-lg leading-none">⬇</span>
+                  <span>TCX</span>
+                </button>
+                <button
+                  onClick={() => setShowShareCard(true)}
+                  className="h-10 px-3 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  title="Share as image"
+                >
+                  <span>📤</span>
+                  <span>Share</span>
+                </button>
+                <button
+                  onClick={toggleDarkMap}
+                  className={`h-10 px-3 text-sm font-semibold rounded-lg transition-colors ${
+                    darkMapStyle
+                      ? 'bg-gray-800 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                  title="Dark map style"
+                >
+                  🌙
                 </button>
                 <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                   <button
@@ -263,7 +321,7 @@ export default function ActivityDetailPage() {
               if (mapMode === '3d') {
                 return <ActivityMap3D {...mapProps} />;
               }
-              return <ActivityMap {...mapProps} />;
+              return <ActivityMap {...mapProps} darkStyle={darkMapStyle} />;
             })()}
           </div>
         )}
@@ -399,6 +457,28 @@ export default function ActivityDetailPage() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Activity Photos */}
+        <ActivityPhotos activityId={activity.id} />
+
+        {/* Shareable Card Modal */}
+        {showShareCard && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowShareCard(false)}>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md" onClick={(e) => e.stopPropagation()}>
+              <ShareableActivityCard
+                activity={{
+                  name: activity.name,
+                  type: activity.type,
+                  distance: activity.distance,
+                  moving_time: activity.moving_time,
+                  total_elevation_gain: activity.total_elevation_gain,
+                  start_date_local: activity.start_date_local,
+                }}
+                onClose={() => setShowShareCard(false)}
+              />
             </div>
           </div>
         )}

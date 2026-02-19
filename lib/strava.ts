@@ -36,6 +36,7 @@ export interface StravaActivity {
   elapsed_time: number;
   total_elevation_gain: number;
   type: string;
+  commute?: boolean;
   start_date: string;
   start_date_local: string;
   timezone: string;
@@ -59,6 +60,16 @@ export interface StravaActivity {
   splits_metric?: StravaSplit[];
   splits_standard?: StravaSplit[];
   segment_efforts?: StravaSegmentEffort[];
+}
+
+export interface StravaPhoto {
+  id: number;
+  unique_id: string;
+  urls: Record<string, string>;
+  caption?: string;
+  source: number;
+  uploaded_at: string;
+  created_at: string;
 }
 
 export interface StravaSegmentEffort {
@@ -251,6 +262,11 @@ class StravaClient {
     const data = await this.request(`/activities/${id}?include_all_efforts=true`, {}, 7);
     // Cache individual activities for 10 minutes (they don't change)
     apiCache.set(cacheKey, data, 10 * 60 * 1000);
+    return data;
+  }
+
+  async getActivityPhotos(activityId: number, size: number = 500): Promise<StravaPhoto[]> {
+    const data = await this.request(`/activities/${activityId}/photos?photo_sources=true&size=${size}`, {}, 5);
     return data;
   }
 

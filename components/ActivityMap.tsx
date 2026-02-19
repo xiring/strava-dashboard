@@ -33,6 +33,11 @@ import 'leaflet/dist/leaflet.css';
 // Fix for default marker icons in Next.js
 // This will be set when the component mounts
 
+const TILE_URLS = {
+  light: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+};
+
 interface ActivityMapProps {
   polyline: string;
   startLat?: number;
@@ -41,6 +46,7 @@ interface ActivityMapProps {
   endLng?: number;
   elapsedTime?: number; // in seconds
   distance?: number; // in meters
+  darkStyle?: boolean;
 }
 
 export default function ActivityMap({
@@ -51,6 +57,7 @@ export default function ActivityMap({
   endLng,
   elapsedTime,
   distance,
+  darkStyle = false,
 }: ActivityMapProps) {
   const [mounted, setMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -366,8 +373,8 @@ export default function ActivityMap({
           className="z-0"
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={darkStyle ? '&copy; <a href="https://carto.com/">CARTO</a>' : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}
+            url={darkStyle ? TILE_URLS.dark : TILE_URLS.light}
           />
           {/* Full route (faded) */}
           <Polyline

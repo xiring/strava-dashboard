@@ -10,6 +10,7 @@ interface AdvancedFiltersProps {
 export interface FilterState {
   searchQuery: string;
   activityTypes: string[];
+  commuteFilter: 'all' | 'commute' | 'non-commute';
   dateRange: { start: string; end: string };
   distanceRange: { min: number; max: number };
   elevationRange: { min: number; max: number };
@@ -22,6 +23,7 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
   const [filters, setFilters] = useState<FilterState>({
     searchQuery: '',
     activityTypes: [],
+    commuteFilter: 'all',
     dateRange: { start: '', end: '' },
     distanceRange: { min: 0, max: 1000 },
     elevationRange: { min: 0, max: 5000 },
@@ -39,6 +41,7 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
     const resetFilters: FilterState = {
       searchQuery: '',
       activityTypes: [],
+      commuteFilter: 'all',
       dateRange: { start: '', end: '' },
       distanceRange: { min: 0, max: 1000 },
       elevationRange: { min: 0, max: 5000 },
@@ -63,6 +66,22 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
 
       {isOpen && (
         <div className="space-y-4">
+          {/* Commute Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Commute
+            </label>
+            <select
+              value={filters.commuteFilter}
+              onChange={(e) => handleFilterChange('commuteFilter', e.target.value as FilterState['commuteFilter'])}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            >
+              <option value="all">All activities</option>
+              <option value="commute">Commute only</option>
+              <option value="non-commute">Non-commute only</option>
+            </select>
+          </div>
+
           {/* Activity Types */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';

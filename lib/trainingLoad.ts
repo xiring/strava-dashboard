@@ -13,6 +13,7 @@ export interface RecoveryRecommendation {
   status: 'fresh' | 'ready' | 'tired' | 'overtrained';
   message: string;
   recommendation: string;
+  score: number; // 0-100 recovery score (100 = fully recovered)
 }
 
 export function calculateTrainingLoad(activities: StravaActivity[], period: 'week' | 'month' = 'week'): TrainingLoadData[] {
@@ -87,38 +88,43 @@ export function getRecoveryRecommendation(
       status: 'fresh',
       message: 'No recent training data',
       recommendation: 'Start with light activities and gradually increase volume.',
+      score: 100,
     };
   }
 
   const avgVolume = recentLoad.reduce((sum, w) => sum + w.volume, 0) / recentLoad.length;
   const avgStress = recentLoad.reduce((sum, w) => sum + w.stressScore, 0) / recentLoad.length;
 
-  const volumeIncrease = ((currentWeek.volume - avgVolume) / avgVolume) * 100;
-  const stressIncrease = ((currentWeek.stressScore - avgStress) / avgStress) * 100;
+  const volumeIncrease = avgVolume > 0 ? ((currentWeek.volume - avgVolume) / avgVolume) * 100 : 0;
+  const stressIncrease = avgStress > 0 ? ((currentWeek.stressScore - avgStress) / avgStress) * 100 : 0;
 
   if (currentWeek.stressScore > avgStress * 1.5 || volumeIncrease > 50) {
     return {
       status: 'overtrained',
       message: 'High training load detected',
       recommendation: 'Consider taking a rest day or reducing intensity. Recovery is important for progress.',
+      score: 25,
     };
   } else if (currentWeek.stressScore > avgStress * 1.2 || volumeIncrease > 20) {
     return {
       status: 'tired',
       message: 'Elevated training load',
       recommendation: 'Monitor fatigue levels. Consider an easy day or active recovery.',
+      score: 50,
     };
   } else if (currentWeek.stressScore < avgStress * 0.8) {
     return {
       status: 'fresh',
       message: 'Low training load',
       recommendation: 'You\'re well recovered. Good time for a challenging workout!',
+      score: 95,
     };
   } else {
     return {
       status: 'ready',
       message: 'Balanced training load',
       recommendation: 'Maintain current training volume. You\'re in a good training zone.',
+      score: 75,
     };
   }
 }

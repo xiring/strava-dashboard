@@ -40,6 +40,7 @@ model Activity {
   elapsed_time          Int
   total_elevation_gain  Float
   type                  String
+  commute               Boolean  @default(false)
   start_date            String
   start_date_local      String
   timezone              String?

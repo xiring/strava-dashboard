@@ -48,7 +48,7 @@ export function clearStorage(): void {
 // Specific storage helpers
 export const storage = {
   preferences: {
-    get: () => getStorageItem('preferences', { theme: 'auto', itemsPerPage: 12 }),
+    get: () => getStorageItem('preferences', { theme: 'auto', itemsPerPage: 12, darkMapStyle: false }),
     set: (prefs: any) => setStorageItem('preferences', prefs),
   },
   recentSearches: {

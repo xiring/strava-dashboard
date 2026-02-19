@@ -35,15 +35,16 @@ const navGroups = [
       { href: '/gear', label: 'Gear', icon: '🚴', description: 'Gear tracking' },
     ],
   },
-  {
-    label: 'Reports',
-    items: [
-      { href: '/summary', label: 'Summary', icon: '📋', description: 'Reports' },
-      { href: '/records', label: 'Records', icon: '🏆', description: 'Personal bests' },
-      { href: '/compare', label: 'Compare', icon: '⚖️', description: 'Compare activities' },
-      { href: '/goals', label: 'Goals', icon: '🎯', description: 'Track goals' },
-    ],
-  },
+    {
+      label: 'Reports',
+      items: [
+        { href: '/summary', label: 'Summary', icon: '📋', description: 'Reports' },
+        { href: '/records', label: 'Records', icon: '🏆', description: 'Personal bests' },
+        { href: '/compare', label: 'Compare', icon: '⚖️', description: 'Compare activities' },
+        { href: '/goals', label: 'Goals', icon: '🎯', description: 'Track goals' },
+        { href: '/challenges', label: 'Challenges', icon: '🏅', description: 'Custom challenges' },
+      ],
+    },
 ];
 
 export default function Navigation() {

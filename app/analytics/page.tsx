@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ScatterChart, Scatter } from 'recharts';
+import { calculatePaceZones, estimateRaceTimes, generatePersonalInsights } from '@/lib/analytics';
 
 export default function AnalyticsPage() {
   const [activities, setActivities] = useState<StravaActivity[]>([]);
@@ -120,6 +121,32 @@ export default function AnalyticsPage() {
     return withCadence;
   }, [filteredActivities]);
 
+  // Pace zones (running)
+  const paceZones = useMemo(() => calculatePaceZones(filteredActivities), [filteredActivities]);
+
+  // Estimated race times
+  const raceTimes = useMemo(() => estimateRaceTimes(filteredActivities), [filteredActivities]);
+
+  // Personal insights
+  const insights = useMemo(
+    () => generatePersonalInsights(activities, timeRange === 'all' ? 'month' : timeRange),
+    [activities, timeRange]
+  );
+
+  // Correlation: distance vs heart rate (for runs with HR)
+  const correlationData = useMemo(() => {
+    const runsWithHR = filteredActivities
+      .filter((a) => a.type === 'Run' && a.average_heartrate && a.distance >= 1000)
+      .map((a) => ({
+        distance: (a.distance / 1000).toFixed(1),
+        heartRate: Math.round(a.average_heartrate!),
+        pace: (a.moving_time / 60 / (a.distance / 1000)).toFixed(1),
+        elevation: Math.round(a.total_elevation_gain),
+      }))
+      .slice(-30);
+    return runsWithHR;
+  }, [filteredActivities]);
+
   // Activity type distribution
   const typeDistribution = useMemo(() => {
     const types = new Map<string, number>();
@@ -152,6 +179,30 @@ export default function AnalyticsPage() {
       <PageHeader title="Advanced Analytics" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Personal Insights */}
+        {insights.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Personal Insights</h2>
+            <div className="space-y-3">
+              {insights.map((insight, i) => (
+                <div
+                  key={i}
+                  className={`flex items-start gap-3 p-4 rounded-lg ${
+                    insight.type === 'milestone'
+                      ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
+                      : insight.type === 'positive'
+                        ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+                        : 'bg-gray-50 dark:bg-gray-700/50'
+                  }`}
+                >
+                  <span className="text-2xl">{insight.icon}</span>
+                  <p className="text-gray-800 dark:text-gray-200">{insight.message}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Time Range Selector */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -193,6 +244,81 @@ export default function AnalyticsPage() {
                 </Pie>
                 <Tooltip />
               </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
+        {/* Pace Zones */}
+        {paceZones.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Pace Zone Distribution (Running)</h2>
+            <div className="space-y-3 mb-4">
+              {paceZones.map((zone) => (
+                <div key={zone.zone} className="flex items-center gap-4">
+                  <div className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">{zone.label}</div>
+                  <div className="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{ width: `${zone.percent}%`, backgroundColor: zone.color }}
+                    />
+                  </div>
+                  <div className="w-20 text-sm text-gray-600 dark:text-gray-400">
+                    {Math.floor(zone.timeSeconds / 60)}m ({zone.percent.toFixed(0)}%)
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Estimated Race Times */}
+        {raceTimes.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Estimated Race Times</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Based on your recent best efforts (Riegel formula)
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {raceTimes.map((rt) => (
+                <div
+                  key={rt.distance}
+                  className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-center"
+                >
+                  <div className="font-bold text-gray-900 dark:text-white">{rt.distance}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {Math.floor(rt.estimatedTime / 3600)}:{(Math.floor(rt.estimatedTime / 60) % 60)
+                      .toString()
+                      .padStart(2, '0')}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{rt.pace}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Correlation: Distance vs Heart Rate */}
+        {correlationData.length >= 3 && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              Distance vs Heart Rate (Runs)
+            </h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <ScatterChart>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="distance" name="Distance (km)" stroke="#6b7280" />
+                <YAxis dataKey="heartRate" name="Avg HR (bpm)" stroke="#6b7280" />
+                <Tooltip
+                  cursor={{ strokeDasharray: '3 3' }}
+                  formatter={(value: number) => [value]}
+                  contentStyle={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                  }}
+                />
+                <Scatter data={correlationData} fill="#FC4C02" />
+              </ScatterChart>
             </ResponsiveContainer>
           </div>
         )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { StravaActivity } from '@/lib/strava';
+import { getActivityIcon } from '@/lib/activityIcons';
 import Link from 'next/link';
 
 interface ActivityCardProps {
@@ -54,20 +55,6 @@ function formatSpeed(metersPerSecond: number, activityType: string): string {
     const kmh = (metersPerSecond * 3600) / 1000;
     return `${kmh.toFixed(1)} km/h`;
   }
-}
-
-function getActivityIcon(type: string): string {
-  const icons: Record<string, string> = {
-    Run: '🏃',
-    Ride: '🚴',
-    Walk: '🚶',
-    Hike: '🥾',
-    Swim: '🏊',
-    Workout: '💪',
-    VirtualRide: '🚴‍♂️',
-    VirtualRun: '🏃‍♂️',
-  };
-  return icons[type] || '🏃';
 }
 
 function getActivityColor(type: string): string {

@@ -63,69 +63,86 @@ export class DatabaseService {
     });
   }
 
-  // Activity operations
+  private safeStringify(val: unknown): string | null {
+    if (val == null) return null;
+    try {
+      const s = JSON.stringify(val);
+      return s && s !== 'undefined' ? s : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Activity operations - Prisma requires null (not undefined) and valid types
+  private toPrismaActivity(activity: StravaActivity) {
+    const num = (v: number | string | undefined): number =>
+      v === undefined || v === null ? 0 : typeof v === 'string' ? parseFloat(v) || 0 : Number(v);
+    const optNum = (v: number | string | undefined): number | null => {
+      if (v === undefined || v === null) return null;
+      const n = typeof v === 'string' ? parseFloat(v) : Number(v);
+      return Number.isFinite(n) ? n : null;
+    };
+    // For optional fields: use null when 0 (avoids Prisma edge cases with zero)
+    const optNumOrNull = (v: number | string | undefined): number | null => {
+      const n = optNum(v);
+      return n === 0 ? null : n;
+    };
+    const int = (v: number | string | undefined): number =>
+      v === undefined || v === null ? 0 : Math.floor(Number(v)) || 0;
+
+    return {
+      name: String(activity.name ?? ''),
+      distance: num(activity.distance),
+      moving_time: int(activity.moving_time),
+      elapsed_time: int(activity.elapsed_time),
+      total_elevation_gain: num(activity.total_elevation_gain),
+      type: String(activity.type ?? 'Workout'),
+      start_date: String(activity.start_date ?? ''),
+      start_date_local: String(activity.start_date_local ?? ''),
+      timezone: activity.timezone ? String(activity.timezone) : null,
+      average_speed: num(activity.average_speed),
+      max_speed: optNumOrNull(activity.max_speed),
+      average_cadence: optNum(activity.average_cadence),
+      average_heartrate: optNum(activity.average_heartrate),
+      max_heartrate: optNum(activity.max_heartrate),
+      elev_high: optNumOrNull(activity.elev_high),
+      elev_low: optNumOrNull(activity.elev_low),
+      calories: activity.calories != null ? int(activity.calories) : null,
+      achievement_count: int(activity.achievement_count),
+      kudos_count: int(activity.kudos_count),
+      comment_count: int(activity.comment_count),
+      athlete_count: int(activity.athlete_count),
+      summary_polyline: activity.map?.summary_polyline ? String(activity.map.summary_polyline) : null,
+      polyline: activity.map?.polyline ? String(activity.map.polyline) : null,
+      splits_metric: this.safeStringify(activity.splits_metric),
+      splits_standard: this.safeStringify(activity.splits_standard),
+      segment_efforts: this.safeStringify((activity as any).segment_efforts),
+    };
+  }
+
+  private stripUndefined<T extends Record<string, unknown>>(obj: T): T {
+    return Object.fromEntries(
+      Object.entries(obj).filter(([, v]) => v !== undefined)
+    ) as T;
+  }
+
   async upsertActivity(activity: StravaActivity) {
     const activityId = activity.id.toString();
-    return await prisma.activity.upsert({
-      where: { id: activityId } as any,
-      update: {
-        name: activity.name,
-        distance: activity.distance,
-        moving_time: activity.moving_time,
-        elapsed_time: activity.elapsed_time,
-        total_elevation_gain: activity.total_elevation_gain,
-        type: activity.type,
-        start_date: activity.start_date,
-        start_date_local: activity.start_date_local,
-        timezone: activity.timezone,
-        average_speed: activity.average_speed,
-        max_speed: activity.max_speed,
-        average_cadence: activity.average_cadence,
-        average_heartrate: activity.average_heartrate,
-        max_heartrate: activity.max_heartrate,
-        elev_high: activity.elev_high,
-        elev_low: activity.elev_low,
-        calories: activity.calories,
-        achievement_count: activity.achievement_count,
-        kudos_count: activity.kudos_count,
-        comment_count: activity.comment_count,
-        athlete_count: activity.athlete_count,
-        summary_polyline: activity.map?.summary_polyline,
-        polyline: activity.map?.polyline,
-        splits_metric: activity.splits_metric ? JSON.stringify(activity.splits_metric) : null,
-        splits_standard: activity.splits_standard ? JSON.stringify(activity.splits_standard) : null,
-        synced_at: new Date(),
-        updated_at: new Date(),
-      },
-      create: {
-        id: activityId as any,
-        name: activity.name,
-        distance: activity.distance,
-        moving_time: activity.moving_time,
-        elapsed_time: activity.elapsed_time,
-        total_elevation_gain: activity.total_elevation_gain,
-        type: activity.type,
-        start_date: activity.start_date,
-        start_date_local: activity.start_date_local,
-        timezone: activity.timezone,
-        average_speed: activity.average_speed,
-        max_speed: activity.max_speed,
-        average_cadence: activity.average_cadence,
-        average_heartrate: activity.average_heartrate,
-        max_heartrate: activity.max_heartrate,
-        elev_high: activity.elev_high,
-        elev_low: activity.elev_low,
-        calories: activity.calories,
-        achievement_count: activity.achievement_count,
-        kudos_count: activity.kudos_count,
-        comment_count: activity.comment_count,
-        athlete_count: activity.athlete_count,
-        summary_polyline: activity.map?.summary_polyline,
-        polyline: activity.map?.polyline,
-        splits_metric: activity.splits_metric ? JSON.stringify(activity.splits_metric) : null,
-        splits_standard: activity.splits_standard ? JSON.stringify(activity.splits_standard) : null,
-      },
-    });
+    const data = this.stripUndefined(this.toPrismaActivity(activity) as Record<string, unknown>);
+    const updateData = this.stripUndefined({ ...data, synced_at: new Date() });
+    const createData = { id: activityId, ...data };
+
+    try {
+      return await prisma.activity.update({
+        where: { id: activityId },
+        data: updateData,
+      });
+    } catch (e: any) {
+      if (e.code === 'P2025') {
+        return await prisma.activity.create({ data: createData });
+      }
+      throw e;
+    }
   }
 
   async getActivity(id: number | bigint | string) {
@@ -254,6 +271,7 @@ export class DatabaseService {
     polyline: string | null;
     splits_metric: string | null;
     splits_standard: string | null;
+    segment_efforts: string | null;
   }): StravaActivity {
     return {
       id: typeof activity.id === 'string' ? parseInt(activity.id) : Number(activity.id),
@@ -285,6 +303,7 @@ export class DatabaseService {
       },
       splits_metric: activity.splits_metric ? JSON.parse(activity.splits_metric) : undefined,
       splits_standard: activity.splits_standard ? JSON.parse(activity.splits_standard) : undefined,
+      segment_efforts: activity.segment_efforts ? JSON.parse(activity.segment_efforts) : undefined,
     };
   }
 }

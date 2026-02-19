@@ -63,6 +63,7 @@ model Activity {
   tags                  String?
   gear_id               String?
   weather_data          String?
+  segment_efforts      String?
   synced_at             DateTime @default(now())
   updated_at            DateTime @default(now()) @updatedAt
   createdAt             DateTime @default(now())

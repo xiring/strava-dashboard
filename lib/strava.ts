@@ -58,6 +58,26 @@ export interface StravaActivity {
   };
   splits_metric?: StravaSplit[];
   splits_standard?: StravaSplit[];
+  segment_efforts?: StravaSegmentEffort[];
+}
+
+export interface StravaSegmentEffort {
+  id: number;
+  name: string;
+  elapsed_time: number;
+  moving_time: number;
+  distance: number;
+  average_heartrate?: number;
+  max_heartrate?: number;
+  pr_rank?: number;
+  kom_rank?: number;
+  segment?: {
+    id: number;
+    name: string;
+    distance: number;
+    average_grade: number;
+    climb_category: number;
+  };
 }
 
 export interface StravaAthlete {

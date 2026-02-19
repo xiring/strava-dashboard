@@ -8,7 +8,11 @@ import ActivityMap from '@/components/ActivityMap';
 import ActivityMap3D from '@/components/ActivityMap3D';
 import PaceBreakdown from '@/components/PaceBreakdown';
 import ActivityNotes from '@/components/ActivityNotes';
+import WeatherDisplay from '@/components/WeatherDisplay';
+import FavoriteButton from '@/components/FavoriteButton';
+import SegmentEffortsDisplay from '@/components/SegmentEffortsDisplay';
 import { decodePolyline } from '@/lib/polyline';
+import { getActivityIcon } from '@/lib/activityIcons';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
 
@@ -57,18 +61,6 @@ function formatSpeed(metersPerSecond: number, activityType: string): string {
     const kmh = (metersPerSecond * 3600) / 1000;
     return `${kmh.toFixed(1)} km/h`;
   }
-}
-
-function getActivityIcon(type: string): string {
-  const icons: Record<string, string> = {
-    Run: '🏃',
-    Ride: '🚴',
-    Walk: '🚶',
-    Hike: '🥾',
-    Swim: '🏊',
-    Workout: '💪',
-  };
-  return icons[type] || '🏃';
 }
 
 export default function ActivityDetailPage() {
@@ -196,6 +188,7 @@ export default function ActivityDetailPage() {
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-4">
               <div className="text-4xl">{getActivityIcon(activity.type)}</div>
+              <FavoriteButton activityId={activity.id} size="lg" className="ml-2" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {activity.name}
@@ -274,6 +267,21 @@ export default function ActivityDetailPage() {
             })()}
           </div>
         )}
+
+        {/* Weather (if route has start coords) */}
+        {activity.map?.summary_polyline && (() => {
+          const coords = decodePolyline(activity.map.summary_polyline);
+          const start = coords[0];
+          if (start) {
+            const timestamp = Math.floor(new Date(activity.start_date_local).getTime() / 1000);
+            return (
+              <div className="mb-6">
+                <WeatherDisplay lat={start[0]} lon={start[1]} timestamp={timestamp} />
+              </div>
+            );
+          }
+          return null;
+        })()}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -393,6 +401,11 @@ export default function ActivityDetailPage() {
               )}
             </div>
           </div>
+        )}
+
+        {/* Segment Efforts */}
+        {activity.segment_efforts && activity.segment_efforts.length > 0 && (
+          <SegmentEffortsDisplay segmentEfforts={activity.segment_efforts} />
         )}
 
         {/* Pace Breakdown */}

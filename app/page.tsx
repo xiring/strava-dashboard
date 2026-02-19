@@ -15,6 +15,7 @@ import StreakDisplay from '@/components/StreakDisplay';
 import BestEffortsDisplay from '@/components/BestEffortsDisplay';
 import DashboardWidget from '@/components/DashboardWidget';
 import { calculateStreaks } from '@/lib/streaks';
+import ThisDayLastYear from '@/components/ThisDayLastYear';
 import { requestNotificationPermission, scheduleWeeklySummary } from '@/lib/notifications';
 import { storage } from '@/lib/storage';
 
@@ -28,7 +29,7 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(false);
   const [widgets, setWidgets] = useState<string[]>(() => {
     const saved = storage.preferences.get() as any;
-    return saved?.dashboardWidgets || ['stats', 'streaks', 'chart', 'activities'];
+    return saved?.dashboardWidgets || ['stats', 'streaks', 'chart', 'thisDayLastYear', 'activities'];
   });
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function Home() {
     try {
       // Load fewer activities initially to reduce API calls
       // User can load more via pagination if needed
-      const response = await fetch('/api/activities?per_page=20');
+      const response = await fetch('/api/activities?per_page=200');
       if (response.ok) {
         const data = await response.json();
         setActivities(data);
@@ -275,6 +276,21 @@ export default function Home() {
               }}
             >
               <ActivityChart activities={activities} />
+            </DashboardWidget>
+          )}
+
+          {widgets.includes('thisDayLastYear') && activities.length > 0 && (
+            <DashboardWidget
+              id="thisDayLastYear"
+              title="This Day Last Year"
+              onRemove={() => {
+                const newWidgets = widgets.filter((w) => w !== 'thisDayLastYear');
+                setWidgets(newWidgets);
+                const prefs = storage.preferences.get() as any;
+                storage.preferences.set({ ...prefs, dashboardWidgets: newWidgets });
+              }}
+            >
+              <ThisDayLastYear activities={activities} />
             </DashboardWidget>
           )}
 

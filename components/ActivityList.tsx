@@ -1,6 +1,8 @@
 'use client';
 
 import { StravaActivity } from '@/lib/strava';
+import { getActivityIcon } from '@/lib/activityIcons';
+import { storage } from '@/lib/storage';
 import Link from 'next/link';
 
 interface ActivityListProps {
@@ -30,18 +32,6 @@ function formatDate(dateString: string): string {
   });
 }
 
-function getActivityIcon(type: string): string {
-  const icons: Record<string, string> = {
-    Run: '🏃',
-    Ride: '🚴',
-    Walk: '🚶',
-    Hike: '🥾',
-    Swim: '🏊',
-    Workout: '💪',
-  };
-  return icons[type] || '🏃';
-}
-
 export default function ActivityList({ activities }: ActivityListProps) {
   if (activities.length === 0) {
     return (
@@ -61,11 +51,14 @@ export default function ActivityList({ activities }: ActivityListProps) {
           <Link
             key={activity.id}
             href={`/activities/${activity.id}`}
-            className="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+            className="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer group"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4 flex-1">
                 <div className="text-2xl">{getActivityIcon(activity.type)}</div>
+                {typeof window !== 'undefined' && storage.favoriteActivities.has(activity.id) && (
+                  <span className="text-lg" title="Favorite">⭐</span>
+                )}
                 <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                     {activity.name}

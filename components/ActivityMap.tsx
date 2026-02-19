@@ -373,6 +373,7 @@ export default function ActivityMap({
           className="z-0"
         >
           <TileLayer
+            key={darkStyle ? 'dark' : 'light'}
             attribution={darkStyle ? '&copy; <a href="https://carto.com/">CARTO</a>' : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}
             url={darkStyle ? TILE_URLS.dark : TILE_URLS.light}
           />

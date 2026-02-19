@@ -66,11 +66,11 @@ class ApiCache {
     if (Math.random() > 0.1) return; // 10% chance
 
     const now = Date.now();
-    for (const [key, entry] of this.cache.entries()) {
+    Array.from(this.cache.entries()).forEach(([key, entry]) => {
       if (now > entry.expiresAt) {
         this.cache.delete(key);
       }
-    }
+    });
   }
 
   // Get cache statistics
@@ -79,13 +79,13 @@ class ApiCache {
     let valid = 0;
     let expired = 0;
 
-    for (const entry of this.cache.values()) {
+    Array.from(this.cache.values()).forEach((entry) => {
       if (now > entry.expiresAt) {
         expired++;
       } else {
         valid++;
       }
-    }
+    });
 
     return {
       total: this.cache.size,

@@ -50,5 +50,6 @@
   },
   "overrides": {
     "glob": "^10.4.6"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }

@@ -7,6 +7,7 @@ import ActivityCard from '@/components/ActivityCard';
 import AdvancedFilters, { FilterState } from '@/components/AdvancedFilters';
 import { debounce } from '@/lib/debounce';
 import ExportDropdown from '@/components/ExportDropdown';
+import ActivityCalendar from '@/components/ActivityCalendar';
 import { ActivityCardSkeleton } from '@/components/LoadingSkeleton';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
@@ -21,15 +22,17 @@ export default function AllActivitiesPage() {
   const [athlete, setAthlete] = useState<StravaAthlete | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(24);
   const [sortBy, setSortBy] = useState<SortOption>('date_desc');
   const [filterType, setFilterType] = useState<ActivityType>('All');
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [ratingFilter, setRatingFilter] = useState<number | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedFilters, setAdvancedFilters] = useState<FilterState | null>(null);
-  const [totalPages, setTotalPages] = useState(1);
   const [showRecentSearches, setShowRecentSearches] = useState(false);
-  const activitiesPerPage = 12;
+  const [viewMode, setViewMode] = useState<'grid' | 'calendar'>('grid');
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const increment = 24;
   const recentSearches = storage.recentSearches.get() ?? [];
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export default function AllActivitiesPage() {
     };
     fetchAthlete();
     loadActivities();
-  }, [currentPage]);
+  }, []);
 
   const loadActivities = async () => {
     try {
@@ -97,6 +100,12 @@ export default function AllActivitiesPage() {
     if (favoritesOnly) {
       const favorites = storage.favoriteActivities.get() || [];
       filtered = filtered.filter((activity) => favorites.includes(activity.id));
+    }
+
+    // Filter by rating
+    if (ratingFilter !== 'all') {
+      const ratings = storage.activityRatings.get() || {};
+      filtered = filtered.filter((a) => ratings[String(a.id)] === ratingFilter);
     }
 
     // Filter by search query (using debounced value)
@@ -183,23 +192,34 @@ export default function AllActivitiesPage() {
     });
 
     return filtered;
-  }, [activities, filterType, searchDebounced, sortBy, advancedFilters]);
+  }, [activities, filterType, favoritesOnly, ratingFilter, searchDebounced, sortBy, advancedFilters]);
 
-  // Calculate pagination
-  const paginatedActivities = useMemo(() => {
-    const total = filteredAndSortedActivities.length;
-    const pages = Math.ceil(total / activitiesPerPage);
-    setTotalPages(pages);
+  // Visible activities (infinite scroll)
+  const visibleActivities = useMemo(() => {
+    return filteredAndSortedActivities.slice(0, visibleCount);
+  }, [filteredAndSortedActivities, visibleCount]);
 
-    const startIndex = (currentPage - 1) * activitiesPerPage;
-    const endIndex = startIndex + activitiesPerPage;
-    return filteredAndSortedActivities.slice(startIndex, endIndex);
-  }, [filteredAndSortedActivities, currentPage]);
+  const hasMore = visibleCount < filteredAndSortedActivities.length;
 
-  // Reset to page 1 when filters change
+  // Infinite scroll: load more when sentinel is visible
   useEffect(() => {
-    setCurrentPage(1);
-  }, [filterType, favoritesOnly, searchQuery, sortBy, advancedFilters]);
+    if (!hasMore || !loadMoreRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((c) => c + increment);
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, visibleCount]);
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(increment);
+  }, [filterType, favoritesOnly, ratingFilter, searchQuery, sortBy, advancedFilters]);
 
   const activityTypes: ActivityType[] = ['All', 'Run', 'Ride', 'Walk', 'Hike', 'Swim', 'Workout'];
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -319,6 +339,18 @@ export default function AllActivitiesPage() {
               </Select>
             </FormField>
 
+            <FormField label="Rating">
+              <Select
+                value={ratingFilter}
+                onChange={(e) => setRatingFilter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+              >
+                <option value="all">Any rating</option>
+                {[5, 4, 3, 2, 1].map((r) => (
+                  <option key={r} value={r}>{r} ★</option>
+                ))}
+              </Select>
+            </FormField>
+
             <FormField label="Favorites">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -344,11 +376,40 @@ export default function AllActivitiesPage() {
                 <option value="duration_asc">Duration (Shortest First)</option>
               </Select>
             </FormField>
+
+            <FormField label="View">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    viewMode === 'grid'
+                      ? 'bg-strava text-white'
+                      : 'bg-white/60 dark:bg-white/5 border border-white/40 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-white/10'
+                  }`}
+                >
+                  Grid
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('calendar')}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    viewMode === 'calendar'
+                      ? 'bg-strava text-white'
+                      : 'bg-white/60 dark:bg-white/5 border border-white/40 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-white/10'
+                  }`}
+                >
+                  Calendar
+                </button>
+              </div>
+            </FormField>
           </div>
 
           {/* Results count */}
           <div className="mt-4 text-sm text-slate-600 dark:text-slate-400">
-            Showing {paginatedActivities.length} of {filteredAndSortedActivities.length} activities
+            {viewMode === 'grid'
+              ? `Showing ${visibleActivities.length} of ${filteredAndSortedActivities.length} activities`
+              : `${filteredAndSortedActivities.length} activities`}
           </div>
         </div>
 
@@ -359,63 +420,18 @@ export default function AllActivitiesPage() {
               <ActivityCardSkeleton key={i} />
             ))}
           </div>
-        ) : paginatedActivities.length > 0 ? (
+        ) : viewMode === 'calendar' ? (
+          <ActivityCalendar activities={filteredAndSortedActivities} />
+        ) : visibleActivities.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-8">
-              {paginatedActivities.map((activity) => (
+              {visibleActivities.map((activity) => (
                 <ActivityCard key={activity.id} activity={activity} />
               ))}
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center space-x-2">
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  Previous
-                </button>
-
-                <div className="flex items-center space-x-1">
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
-
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`px-4 py-2.5 rounded-xl transition-colors font-medium ${
-                          currentPage === pageNum
-                            ? 'bg-strava text-white'
-                            : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            {/* Infinite scroll sentinel */}
+            {hasMore && <div ref={loadMoreRef} className="h-4" aria-hidden="true" />}
           </>
         ) : (
           <div className="glass p-16 text-center">

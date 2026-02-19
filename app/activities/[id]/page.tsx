@@ -87,7 +87,17 @@ export default function ActivityDetailPage() {
     setDarkMapStyle(next);
     const prefs = storage.preferences.get() as any;
     storage.preferences.set({ ...prefs, darkMapStyle: next });
+    window.dispatchEvent(new CustomEvent('strava-dark-map-style-changed', { detail: { darkMapStyle: next } }));
   };
+
+  useEffect(() => {
+    const handler = () => {
+      const prefs = storage.preferences.get() as { darkMapStyle?: boolean } | null;
+      setDarkMapStyle(prefs?.darkMapStyle ?? false);
+    };
+    window.addEventListener('strava-dark-map-style-changed', handler);
+    return () => window.removeEventListener('strava-dark-map-style-changed', handler);
+  }, []);
 
   const handleDownloadGpx = (polyline?: string, name?: string, startDate?: string) => {
     if (!polyline) return;
@@ -329,7 +339,7 @@ export default function ActivityDetailPage() {
                 distance: activity.distance,
               };
               if (mapMode === '3d') {
-                return <ActivityMap3D {...mapProps} />;
+                return <ActivityMap3D {...mapProps} darkStyle={darkMapStyle} />;
               }
               return <ActivityMap {...mapProps} darkStyle={darkMapStyle} />;
             })()}

@@ -140,7 +140,7 @@ export class DatabaseService {
       });
     } catch (e: any) {
       if (e.code === 'P2025') {
-        return await prisma.activity.create({ data: createData });
+        return await prisma.activity.create({ data: createData as any });
       }
       throw e;
     }

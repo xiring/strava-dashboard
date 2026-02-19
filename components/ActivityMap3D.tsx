@@ -14,6 +14,11 @@ import maplibregl from 'maplibre-gl';
 import { decodePolyline } from '@/lib/polyline';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
+const MAP_STYLES = {
+  light: 'https://demotiles.maplibre.org/style.json',
+  dark: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+};
+
 interface ActivityMap3DProps {
   polyline: string;
   startLat?: number;
@@ -22,6 +27,7 @@ interface ActivityMap3DProps {
   endLng?: number;
   elapsedTime?: number; // in seconds
   distance?: number; // in meters
+  darkStyle?: boolean;
 }
 
 type EasingMode = 'linear' | 'easeInOut';
@@ -54,6 +60,7 @@ export default function ActivityMap3D({
   endLng,
   elapsedTime,
   distance,
+  darkStyle = false,
 }: ActivityMap3DProps) {
   const mapRef = useRef<MapRef | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -395,9 +402,10 @@ export default function ActivityMap3D({
       {/* Map */}
       <div className="h-[500px] relative">
         <Map
+          key={darkStyle ? 'dark' : 'light'}
           onLoad={handleMapLoad}
           mapLib={maplibregl as any}
-          mapStyle="https://demotiles.maplibre.org/style.json"
+          mapStyle={darkStyle ? MAP_STYLES.dark : MAP_STYLES.light}
           initialViewState={{
             longitude: lngLatCoords[0]?.[0] || 0,
             latitude: lngLatCoords[0]?.[1] || 0,

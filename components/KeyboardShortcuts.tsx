@@ -79,6 +79,10 @@ export default function KeyboardShortcuts() {
           e.preventDefault();
           router.push('/');
           break;
+        case 'c':
+          e.preventDefault();
+          window.dispatchEvent(new CustomEvent('strava-open-chat'));
+          break;
       }
     };
 
@@ -90,6 +94,7 @@ export default function KeyboardShortcuts() {
 
   const shortcuts = [
     { keys: ['/'], action: 'Focus search / Go to activities' },
+    { keys: ['c'], action: 'Open chat assistant' },
     { keys: ['g'], action: 'Goals' },
     { keys: ['a'], action: 'All activities' },
     { keys: ['r'], action: 'Records' },

@@ -6,6 +6,7 @@ import { QueryProvider } from '@/components/QueryProvider'
 import Footer from '@/components/Footer'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 import KeyboardShortcuts from '@/components/KeyboardShortcuts'
+import ChatAgentWidget from '@/components/ChatAgentWidget'
 
 const font = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -48,6 +49,7 @@ export default function RootLayout({
                   <div className="flex-1">
                     {children}
                   </div>
+                  <ChatAgentWidget />
                   <Footer />
                   </QueryProvider>
                 </ThemeProvider>

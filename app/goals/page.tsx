@@ -5,6 +5,7 @@ import { storage } from '@/lib/storage';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
+import { FormField, Input, Select, Button } from '@/components/ui';
 import { scheduleGoalReminder } from '@/lib/notifications';
 
 interface Goal {
@@ -154,7 +155,7 @@ export default function GoalsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading goals...</p>
@@ -164,7 +165,7 @@ export default function GoalsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader
         title="Goals & Targets"
@@ -179,16 +180,13 @@ export default function GoalsPage() {
         }
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {showAddGoal && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">New Goal</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Type
-                </label>
-                <select
+          <div className="glass p-6 mb-6">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">New Goal</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+              <FormField label="Type">
+                <Select
                   value={newGoal.type}
                   onChange={(e) => {
                     const type = e.target.value as Goal['type'];
@@ -198,61 +196,46 @@ export default function GoalsPage() {
                       unit: type === 'distance' ? 'km' : type === 'elevation' ? 'm' : type === 'time' ? 'hours' : '',
                     });
                   }}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="distance">Distance</option>
                   <option value="activities">Activities</option>
                   <option value="elevation">Elevation</option>
                   <option value="time">Time</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Period
-                </label>
-                <select
+                </Select>
+              </FormField>
+              <FormField label="Period">
+                <Select
                   value={newGoal.period}
                   onChange={(e) => setNewGoal({ ...newGoal, period: e.target.value as Goal['period'] })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
                   <option value="monthly">Monthly</option>
                   <option value="yearly">Yearly</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Target
-                </label>
-                <input
+                </Select>
+              </FormField>
+              <FormField label="Target">
+                <Input
                   type="number"
                   value={newGoal.target}
                   onChange={(e) => setNewGoal({ ...newGoal, target: parseFloat(e.target.value) })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="100"
                 />
-              </div>
-              <div className="flex items-end">
-                <button
-                  onClick={saveGoal}
-                  className="w-full px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
-                >
+              </FormField>
+              <div className="flex items-end gap-2">
+                <Button onClick={saveGoal} className="flex-1">
                   Save Goal
-                </button>
-                <button
-                  onClick={() => setShowAddGoal(false)}
-                  className="ml-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg transition-colors"
-                >
+                </Button>
+                <Button variant="secondary" onClick={() => setShowAddGoal(false)}>
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </div>
         )}
 
         {goals.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+          <div className="glass p-12 text-center">
             <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
               No goals set yet. Create your first goal to track your progress!
             </p>
@@ -268,7 +251,7 @@ export default function GoalsPage() {
             {goals.map((goal) => (
               <div
                 key={goal.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-palette-light"
+                className="glass p-6 border-l-4 border-strava"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>

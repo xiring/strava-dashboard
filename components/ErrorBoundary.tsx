@@ -39,8 +39,8 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-4">
-          <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+        <div className="min-h-screen flex items-center justify-center px-4">
+          <div className="max-w-md w-full glass p-8 text-center">
             <div className="text-6xl mb-4">⚠️</div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Something went wrong

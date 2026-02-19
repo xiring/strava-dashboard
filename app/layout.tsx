@@ -1,12 +1,16 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { QueryProvider } from '@/components/QueryProvider'
 import Footer from '@/components/Footer'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Strava Dashboard - Your Personal Activity Tracker',
@@ -35,7 +39,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Strava Dashboard" />
       </head>
-              <body className={`${inter.className} flex flex-col min-h-screen`}>
+              <body className={`${font.className} flex flex-col min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-50`}>
                 <ThemeProvider>
                   <QueryProvider>
                   <PerformanceMonitor />

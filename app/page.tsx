@@ -9,8 +9,7 @@ import ActivityChart from '@/components/ActivityChart';
 import RateLimitError from '@/components/RateLimitError';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { StatsCardSkeleton, ActivityListSkeleton } from '@/components/LoadingSkeleton';
-import Navigation from '@/components/Navigation';
-import UserMenu from '@/components/UserMenu';
+import AppHeader from '@/components/AppHeader';
 import StreakDisplay from '@/components/StreakDisplay';
 import BestEffortsDisplay from '@/components/BestEffortsDisplay';
 import DashboardWidget from '@/components/DashboardWidget';
@@ -106,10 +105,10 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-medium mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-2 border-slate-200 dark:border-slate-700 border-t-strava mx-auto"></div>
+          <p className="mt-4 text-slate-600 dark:text-slate-400 font-medium">Loading...</p>
         </div>
       </div>
     );
@@ -117,22 +116,25 @@ export default function Home() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-          <div className="mb-6">
-            <h1 className="text-4xl font-bold text-palette-darkest mb-2">Strava Dashboard</h1>
-            <p className="text-gray-600 dark:text-gray-400">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-4">
+        <div className="max-w-md w-full glass p-10 text-center">
+          <div className="mb-8">
+            <div className="w-16 h-16 rounded-2xl bg-strava text-white font-bold text-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
+              S
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Strava Dashboard</h1>
+            <p className="text-slate-600 dark:text-slate-400">
               Connect your Strava account to view your activities and statistics
             </p>
           </div>
           {error && (
-            <div className="mb-4 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 rounded">
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl text-sm">
               {error}
             </div>
           )}
           <button
             onClick={handleLogin}
-            className="w-full bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="w-full bg-strava hover:bg-strava-hover text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-soft hover:shadow-glow active:scale-[0.98]"
           >
             Connect with Strava
           </button>
@@ -160,34 +162,11 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between relative">
-            {/* Logo */}
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex flex-col">
-                <h1 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h1>
-                <span className="text-xs text-palette-dark font-medium">Dashboard</span>
-              </Link>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex-1 flex justify-center">
-              <Navigation />
-            </div>
-
-            {/* User Profile & Actions */}
-            <div className="flex items-center space-x-4">
-              {athlete && <UserMenu athlete={athlete} />}
-            </div>
-          </div>
-        </div>
-      </header>
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-950">
+      <AppHeader athlete={athlete} />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {rateLimitError && (
           <RateLimitError
             retryAfter={rateLimitError.retryAfter}
@@ -196,13 +175,13 @@ export default function Home() {
           />
         )}
         {error && !rateLimitError && (
-          <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 rounded">
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl">
             {error}
           </div>
         )}
 
         {/* Customizable Dashboard Widgets */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {widgets.includes('stats') && stats && (
             <DashboardWidget
               id="stats"
@@ -228,7 +207,7 @@ export default function Home() {
                 }
               }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
                 <StatsCard
                   title="Total Distance (All Time)"
                   value={formatDistance(stats.all_ride_totals.distance + stats.all_run_totals.distance)}
@@ -324,9 +303,9 @@ export default function Home() {
               {loading && activities.length === 0 ? (
                 <ActivityListSkeleton />
               ) : activities.length > 0 ? (
-                <ActivityList activities={activities} />
+                <ActivityList activities={activities} limit={10} />
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-8">No activities found</p>
+                <p className="text-slate-500 dark:text-slate-400 text-center py-12">No activities found</p>
               )}
             </DashboardWidget>
           )}

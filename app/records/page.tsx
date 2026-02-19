@@ -103,7 +103,7 @@ export default function RecordsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading records...</p>
@@ -113,12 +113,12 @@ export default function RecordsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader title="Personal Records" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {error && (
           <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 rounded">
             {error}
@@ -133,7 +133,7 @@ export default function RecordsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Longest Run */}
           {records.longestRun && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div className="glass p-6 border-l-4 border-blue-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">🏃 Longest Run</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -159,7 +159,7 @@ export default function RecordsPage() {
 
           {/* Fastest Run */}
           {records.fastestRun && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div className="glass p-6 border-l-4 border-green-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">⚡ Fastest Run</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -185,7 +185,7 @@ export default function RecordsPage() {
 
           {/* Longest Ride */}
           {records.longestRide && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+            <div className="glass p-6 border-l-4 border-purple-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">🚴 Longest Ride</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -211,7 +211,7 @@ export default function RecordsPage() {
 
           {/* Fastest Ride */}
           {records.fastestRide && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+            <div className="glass p-6 border-l-4 border-yellow-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">⚡ Fastest Ride</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -237,7 +237,7 @@ export default function RecordsPage() {
 
           {/* Most Elevation */}
           {records.mostElevation && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-red-500">
+            <div className="glass p-6 border-l-4 border-red-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">⛰️ Most Elevation</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -266,7 +266,7 @@ export default function RecordsPage() {
 
           {/* Longest Duration */}
           {records.longestDuration && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
+            <div className="glass p-6 border-l-4 border-indigo-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">⏱️ Longest Duration</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -295,7 +295,7 @@ export default function RecordsPage() {
         </div>
 
         {!records.longestRun && !records.fastestRun && !records.longestRide && !records.fastestRide && !records.mostElevation && !records.longestDuration && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+          <div className="glass p-12 text-center">
             <p className="text-gray-500 dark:text-gray-400 text-lg">
               No records found. Complete some activities to see your personal records!
             </p>

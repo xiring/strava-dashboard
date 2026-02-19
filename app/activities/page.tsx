@@ -10,6 +10,7 @@ import ExportDropdown from '@/components/ExportDropdown';
 import { ActivityCardSkeleton } from '@/components/LoadingSkeleton';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
+import { FormField, Input, Select } from '@/components/ui';
 
 type SortOption = 'date_desc' | 'date_asc' | 'distance_desc' | 'distance_asc' | 'duration_desc' | 'duration_asc';
 type ActivityType = 'All' | 'Run' | 'Ride' | 'Walk' | 'Hike' | 'Swim' | 'Workout';
@@ -187,7 +188,7 @@ export default function AllActivitiesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activities...</p>
@@ -198,8 +199,8 @@ export default function AllActivitiesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-md w-full glass p-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Error</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
           <Link
@@ -214,7 +215,7 @@ export default function AllActivitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <AppHeader athlete={athlete} />
       <PageHeader
         title="All Activities"
@@ -222,7 +223,7 @@ export default function AllActivitiesPage() {
       />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Advanced Filters */}
         <AdvancedFilters
           onFilterChange={setAdvancedFilters}
@@ -230,49 +231,34 @@ export default function AllActivitiesPage() {
         />
 
         {/* Filters and Search */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Search */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Search
-              </label>
-              <input
+        <div className="glass p-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <FormField label="Search">
+              <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search activities..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               />
-            </div>
+            </FormField>
 
-            {/* Filter by Type */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Activity Type
-              </label>
-              <select
+            <FormField label="Activity Type">
+              <Select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as ActivityType)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               >
                 {activityTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
                 ))}
-              </select>
-            </div>
+              </Select>
+            </FormField>
 
-            {/* Sort */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Sort By
-              </label>
-              <select
+            <FormField label="Sort By">
+              <Select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light focus:border-transparent"
               >
                 <option value="date_desc">Date (Newest First)</option>
                 <option value="date_asc">Date (Oldest First)</option>
@@ -280,26 +266,26 @@ export default function AllActivitiesPage() {
                 <option value="distance_asc">Distance (Shortest First)</option>
                 <option value="duration_desc">Duration (Longest First)</option>
                 <option value="duration_asc">Duration (Shortest First)</option>
-              </select>
-            </div>
+              </Select>
+            </FormField>
           </div>
 
           {/* Results count */}
-          <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-4 text-sm text-slate-600 dark:text-slate-400">
             Showing {paginatedActivities.length} of {filteredAndSortedActivities.length} activities
           </div>
         </div>
 
         {/* Activities Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
               <ActivityCardSkeleton key={i} />
             ))}
           </div>
         ) : paginatedActivities.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-8">
               {paginatedActivities.map((activity) => (
                 <ActivityCard key={activity.id} activity={activity} />
               ))}
@@ -311,7 +297,7 @@ export default function AllActivitiesPage() {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
                 >
                   Previous
                 </button>
@@ -333,10 +319,10 @@ export default function AllActivitiesPage() {
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`px-4 py-2 rounded-lg transition-colors ${
+                        className={`px-4 py-2.5 rounded-xl transition-colors font-medium ${
                           currentPage === pageNum
-                            ? 'bg-palette-light text-palette-darkest'
-                            : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                            ? 'bg-strava text-white'
+                            : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
                         }`}
                       >
                         {pageNum}
@@ -348,7 +334,7 @@ export default function AllActivitiesPage() {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
                 >
                   Next
                 </button>
@@ -356,8 +342,8 @@ export default function AllActivitiesPage() {
             )}
           </>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
+          <div className="glass p-16 text-center">
+            <p className="text-slate-500 dark:text-slate-400 text-lg">
               No activities found matching your filters.
             </p>
           </div>

@@ -29,20 +29,18 @@ export default function ActivityChart({ activities }: ActivityChartProps) {
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
-        <p className="text-gray-500 dark:text-gray-400">No data available for chart</p>
-      </div>
+      <p className="text-slate-500 dark:text-slate-400 text-center py-8">No data available for chart</p>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+    <div>
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
         Activity Overview (Last 7 Activities)
       </h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" className="dark:stroke-slate-700" />
           <XAxis 
             dataKey="date" 
             stroke="#9CA3AF"

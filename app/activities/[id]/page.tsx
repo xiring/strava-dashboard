@@ -169,7 +169,7 @@ export default function ActivityDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activity...</p>
@@ -180,8 +180,8 @@ export default function ActivityDetailPage() {
 
   if (error || !activity) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-md w-full glass p-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Error</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error || 'Activity not found'}</p>
           <Link
@@ -196,19 +196,19 @@ export default function ActivityDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950">
       <AppHeader athlete={athlete} />
       <PageHeader title={activity.name} showBack={true} />
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Keyboard shortcut hint */}
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
           <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">j</kbd> next · <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">k</kbd> previous
         </p>
 
         {/* Activity Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <div className="glass p-6 mb-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-4">
               <div className="text-4xl">{getActivityIcon(activity.type)}</div>
@@ -235,7 +235,7 @@ export default function ActivityDetailPage() {
 
         {/* Activity Map */}
         {activity.map?.summary_polyline && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">Route Map</h2>
               <div className="flex items-center gap-2 flex-wrap">
@@ -343,25 +343,25 @@ export default function ActivityDetailPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+          <div className="glass p-4">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Distance</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {formatDistance(activity.distance)}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+          <div className="glass p-4">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Moving Time</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {formatDuration(activity.moving_time)}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+          <div className="glass p-4">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Elapsed Time</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {formatDuration(activity.elapsed_time)}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+          <div className="glass p-4">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Elevation Gain</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(activity.total_elevation_gain)}m
@@ -371,7 +371,7 @@ export default function ActivityDetailPage() {
 
         {/* Additional Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Performance</h2>
             <div className="space-y-3">
               <div className="flex justify-between">
@@ -407,7 +407,7 @@ export default function ActivityDetailPage() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Elevation</h2>
             <div className="space-y-3">
               {activity.elev_high && (
@@ -438,7 +438,7 @@ export default function ActivityDetailPage() {
 
         {/* Heart Rate (if available) */}
         {(activity.average_heartrate || activity.max_heartrate) && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Heart Rate</h2>
             <div className="grid grid-cols-2 gap-4">
               {activity.average_heartrate && (
@@ -467,7 +467,7 @@ export default function ActivityDetailPage() {
         {/* Shareable Card Modal */}
         {showShareCard && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowShareCard(false)}>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="glass p-6 max-w-md" onClick={(e) => e.stopPropagation()}>
               <ShareableActivityCard
                 activity={{
                   name: activity.name,
@@ -500,7 +500,7 @@ export default function ActivityDetailPage() {
         )}
 
         {/* Social Stats */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <div className="glass p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Activity Stats</h2>
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">

@@ -11,16 +11,19 @@ interface AppHeaderProps {
 
 export default function AppHeader({ athlete }: AppHeaderProps) {
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex items-center justify-between relative">
+    <header className="sticky top-0 z-40 border-b border-white/20 dark:border-white/5 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl">
+      <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-4">
-            <Link href="/" className="flex flex-col">
-              <h1 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h1>
-              <span className="text-xs text-palette-dark font-medium">Dashboard</span>
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-strava text-white font-bold text-lg shadow-soft backdrop-blur-sm">
+              S
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Strava</span>
+              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 -mt-0.5">Dashboard</span>
+            </div>
+          </Link>
 
           {/* Navigation */}
           <div className="flex-1 flex justify-center">
@@ -28,7 +31,7 @@ export default function AppHeader({ athlete }: AppHeaderProps) {
           </div>
 
           {/* User Profile & Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center">
             {athlete && <UserMenu athlete={athlete} />}
           </div>
         </div>

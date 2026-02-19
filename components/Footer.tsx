@@ -6,16 +6,19 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border-t border-white/20 dark:border-white/5 mt-auto">
+      <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex flex-col mb-4">
-              <h2 className="text-xl font-bold text-palette-darkest leading-tight">Strava</h2>
-              <span className="text-xs text-palette-dark font-medium">Dashboard</span>
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-strava text-white font-bold text-sm flex items-center justify-center">S</div>
+              <div>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">Strava</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 ml-1">Dashboard</span>
+              </div>
             </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
               Your personal Strava activity tracker with advanced analytics, training insights, and more.
             </p>
             <div className="flex items-center space-x-4">
@@ -23,7 +26,7 @@ export default function Footer() {
                 href="https://www.strava.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-palette-dark dark:text-gray-400 dark:hover:text-palette-dark transition-colors"
+                className="text-slate-500 hover:text-strava dark:text-slate-400 dark:hover:text-strava-muted transition-colors"
                 aria-label="Strava Website"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -35,14 +38,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-4">
               Quick Links
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Dashboard
                 </Link>
@@ -50,7 +53,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/activities"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Activities
                 </Link>
@@ -58,7 +61,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/statistics"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Statistics
                 </Link>
@@ -66,7 +69,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/goals"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Goals
                 </Link>
@@ -76,14 +79,14 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-4">
               Resources
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/settings"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Settings
                 </Link>
@@ -93,7 +96,7 @@ export default function Footer() {
                   href="https://www.strava.com/api"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Strava API
                 </a>
@@ -103,7 +106,7 @@ export default function Footer() {
                   href="https://developers.strava.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-palette-dark transition-colors"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Developer Docs
                 </a>
@@ -113,19 +116,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               © {currentYear} Strava Dashboard. Built with Next.js, React, and Tailwind CSS.
             </p>
             <div className="flex items-center space-x-6">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 Powered by{' '}
                 <a
                   href="https://www.strava.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-palette-dark hover:text-palette-darkest font-semibold"
+                  className="text-strava hover:text-strava-hover font-semibold"
                 >
                   Strava API
                 </a>

@@ -12,7 +12,7 @@ export default function BestEffortsDisplay({ bestEfforts }: BestEffortsDisplayPr
 
   if (effortsArray.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div className="glass p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Best Efforts</h2>
         <p className="text-gray-600 dark:text-gray-400 text-center py-8">
           No best efforts recorded yet. Complete activities at common distances to track your personal bests!
@@ -22,7 +22,7 @@ export default function BestEffortsDisplay({ bestEfforts }: BestEffortsDisplayPr
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div className="glass p-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Best Efforts</h2>
       
       <div className="overflow-x-auto">
@@ -55,7 +55,7 @@ export default function BestEffortsDisplay({ bestEfforts }: BestEffortsDisplayPr
               return (
                 <tr
                   key={effort.distance}
-                  className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  className="border-b border-gray-100 dark:border-gray-700 hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
                 >
                   <td className="py-3 px-4 text-gray-900 dark:text-white font-medium">
                     {formatDistance(effort.distance)}

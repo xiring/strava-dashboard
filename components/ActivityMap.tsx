@@ -280,7 +280,7 @@ export default function ActivityMap({
       className={`w-full rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900' : ''}`}
     >
       {/* Playback Controls */}
-      <div className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-4 border-b border-white/20 dark:border-white/5">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-3">
           <div className="flex items-center flex-wrap gap-3">
             <button

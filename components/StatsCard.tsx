@@ -7,17 +7,17 @@ interface StatsCardProps {
 
 export default function StatsCard({ title, value, unit, icon }: StatsCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
+    <div className="glass p-6 card-hover">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{title}</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2 tracking-tight">
             {value}
-            {unit && <span className="text-lg text-gray-500 dark:text-gray-400 ml-1">{unit}</span>}
+            {unit && <span className="text-lg text-slate-500 dark:text-slate-400 ml-1 font-medium">{unit}</span>}
           </p>
         </div>
         {icon && (
-          <div className="text-palette-dark text-3xl">
+          <div className="text-strava text-2xl opacity-90">
             {icon}
           </div>
         )}

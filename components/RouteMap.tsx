@@ -28,7 +28,7 @@ export default function RouteMap({ polyline }: RouteMapProps) {
 
   if (coordinates.length === 0) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
+      <div className="w-full h-full flex items-center justify-center bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-white/5">
         <p className="text-gray-500 dark:text-gray-400">No route data available</p>
       </div>
     );

@@ -66,7 +66,7 @@ export default function ComparePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading activities...</p>
@@ -76,12 +76,12 @@ export default function ComparePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader title="Compare Activities" />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
+        <div className="glass p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Select up to 2 activities to compare
           </h2>
@@ -120,7 +120,7 @@ export default function ComparePage() {
               {selected.map((activity, index) => (
                 <div
                   key={activity.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
+                  className="glass p-6"
                 >
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                     Activity {index + 1}
@@ -168,7 +168,7 @@ export default function ComparePage() {
               ))}
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div className="glass p-6">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                 Comparison Chart
               </h2>
@@ -196,7 +196,7 @@ export default function ComparePage() {
         )}
 
         {selected.length < 2 && selected.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
+          <div className="glass p-6 text-center">
             <p className="text-gray-500 dark:text-gray-400">
               Select one more activity to compare
             </p>

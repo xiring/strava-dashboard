@@ -12,22 +12,22 @@ interface DashboardWidgetProps {
 
 export default function DashboardWidget({ id, title, children, onRemove, onMove }: DashboardWidgetProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 relative group">
+    <div className="glass p-6 lg:p-8 relative group">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
         <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
           {onMove && (
             <>
               <button
                 onClick={() => onMove('up')}
-                className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800"
                 aria-label="Move up"
               >
                 ↑
               </button>
               <button
                 onClick={() => onMove('down')}
-                className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800"
                 aria-label="Move down"
               >
                 ↓
@@ -37,7 +37,7 @@ export default function DashboardWidget({ id, title, children, onRemove, onMove 
           {onRemove && (
             <button
               onClick={onRemove}
-              className="p-1 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+              className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20"
               aria-label="Remove widget"
             >
               ×

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FormField, Input, Select, Button } from '@/components/ui';
 
 interface AdvancedFiltersProps {
   onFilterChange: (filters: FilterState) => void;
@@ -53,40 +54,31 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6">
+    <div className="glass p-5 mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Advanced Filters</h3>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Advanced Filters</h3>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-palette-dark hover:text-palette-darkest font-medium"
+          className="text-sm font-medium text-strava hover:text-strava-hover transition-colors"
         >
           {isOpen ? 'Hide' : 'Show'} Filters
         </button>
       </div>
 
       {isOpen && (
-        <div className="space-y-4">
-          {/* Commute Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Commute
-            </label>
-            <select
+        <div className="space-y-5 pt-2 border-t border-slate-200 dark:border-slate-700">
+          <FormField label="Commute">
+            <Select
               value={filters.commuteFilter}
               onChange={(e) => handleFilterChange('commuteFilter', e.target.value as FilterState['commuteFilter'])}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="all">All activities</option>
               <option value="commute">Commute only</option>
               <option value="non-commute">Non-commute only</option>
-            </select>
-          </div>
+            </Select>
+          </FormField>
 
-          {/* Activity Types */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Activity Types
-            </label>
+          <FormField label="Activity Types">
             <div className="flex flex-wrap gap-2">
               {activityTypes.map((type) => (
                 <button
@@ -97,121 +89,90 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
                       : [...filters.activityTypes, type];
                     handleFilterChange('activityTypes', newTypes);
                   }}
-                  className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all ${
                     filters.activityTypes.includes(type)
-                      ? 'bg-palette-light text-palette-darkest'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-strava text-white'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {type}
                 </button>
               ))}
             </div>
-          </div>
+          </FormField>
 
-          {/* Date Range */}
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Start Date
-              </label>
-              <input
+            <FormField label="Start Date">
+              <Input
                 type="date"
                 value={filters.dateRange.start}
                 onChange={(e) => handleFilterChange('dateRange', { ...filters.dateRange, start: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                End Date
-              </label>
-              <input
+            </FormField>
+            <FormField label="End Date">
+              <Input
                 type="date"
                 value={filters.dateRange.end}
                 onChange={(e) => handleFilterChange('dateRange', { ...filters.dateRange, end: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-            </div>
+            </FormField>
           </div>
 
-          {/* Distance Range */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Distance: {filters.distanceRange.min} - {filters.distanceRange.max} km
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <input
+          <FormField label={`Distance: ${filters.distanceRange.min} - ${filters.distanceRange.max} km`}>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
                 type="number"
                 placeholder="Min (km)"
                 value={filters.distanceRange.min}
                 onChange={(e) => handleFilterChange('distanceRange', { ...filters.distanceRange, min: parseFloat(e.target.value) || 0 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-              <input
+              <Input
                 type="number"
                 placeholder="Max (km)"
                 value={filters.distanceRange.max}
                 onChange={(e) => handleFilterChange('distanceRange', { ...filters.distanceRange, max: parseFloat(e.target.value) || 1000 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
-          </div>
+          </FormField>
 
-          {/* Elevation Range */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Elevation Gain: {filters.elevationRange.min} - {filters.elevationRange.max} m
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <input
+          <FormField label={`Elevation: ${filters.elevationRange.min} - ${filters.elevationRange.max} m`}>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
                 type="number"
                 placeholder="Min (m)"
                 value={filters.elevationRange.min}
                 onChange={(e) => handleFilterChange('elevationRange', { ...filters.elevationRange, min: parseFloat(e.target.value) || 0 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-              <input
+              <Input
                 type="number"
                 placeholder="Max (m)"
                 value={filters.elevationRange.max}
                 onChange={(e) => handleFilterChange('elevationRange', { ...filters.elevationRange, max: parseFloat(e.target.value) || 5000 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
-          </div>
+          </FormField>
 
-          {/* Duration Range */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Duration: {Math.floor(filters.durationRange.min / 60)} - {Math.floor(filters.durationRange.max / 60)} minutes
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <input
+          <FormField label={`Duration: ${Math.floor(filters.durationRange.min / 60)} - ${Math.floor(filters.durationRange.max / 60)} min`}>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
                 type="number"
-                placeholder="Min (minutes)"
+                placeholder="Min (min)"
                 value={Math.floor(filters.durationRange.min / 60)}
                 onChange={(e) => handleFilterChange('durationRange', { ...filters.durationRange, min: (parseFloat(e.target.value) || 0) * 60 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-              <input
+              <Input
                 type="number"
-                placeholder="Max (minutes)"
+                placeholder="Max (min)"
                 value={Math.floor(filters.durationRange.max / 60)}
                 onChange={(e) => handleFilterChange('durationRange', { ...filters.durationRange, max: (parseFloat(e.target.value) || 1440) * 60 })}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
-          </div>
+          </FormField>
 
-          {/* Reset Button */}
-          <div className="flex justify-end">
-            <button
-              onClick={resetFilters}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
+          <div className="flex justify-end pt-2">
+            <Button variant="secondary" onClick={resetFilters}>
               Reset Filters
-            </button>
+            </Button>
           </div>
         </div>
       )}

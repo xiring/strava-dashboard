@@ -72,19 +72,19 @@ function getActivityColor(type: string): string {
 export default function ActivityCard({ activity }: ActivityCardProps) {
   return (
     <Link href={`/activities/${activity.id}`}>
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700 cursor-pointer h-full">
+      <div className="glass p-6 cursor-pointer h-full card-hover">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="text-3xl">{getActivityIcon(activity.type)}</div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-2">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
                 {activity.name}
               </h3>
               <div className="flex items-center space-x-2 mt-1">
                 <span className={`px-2 py-1 rounded text-xs font-medium ${getActivityColor(activity.type)}`}>
                   {activity.type}
                 </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-slate-500 dark:text-slate-400">
                   {formatDate(activity.start_date_local)}
                 </span>
               </div>
@@ -94,27 +94,27 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Distance</div>
-            <div className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Distance</div>
+            <div className="text-lg font-semibold text-slate-900 dark:text-white">
               {formatDistance(activity.distance)}
             </div>
           </div>
           <div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Time</div>
-            <div className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Time</div>
+            <div className="text-lg font-semibold text-slate-900 dark:text-white">
               {formatDuration(activity.moving_time)}
             </div>
           </div>
           <div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Pace/Speed</div>
-            <div className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Pace/Speed</div>
+            <div className="text-lg font-semibold text-slate-900 dark:text-white">
               {formatSpeed(activity.average_speed, activity.type)}
             </div>
           </div>
           {activity.total_elevation_gain > 0 && (
             <div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Elevation</div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-white">
+              <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Elevation</div>
+              <div className="text-lg font-semibold text-slate-900 dark:text-white">
                 {Math.round(activity.total_elevation_gain)}m
               </div>
             </div>
@@ -122,15 +122,15 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
         </div>
 
         {(activity.kudos_count > 0 || activity.comment_count > 0) && (
-          <div className="flex items-center space-x-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-4 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
             {activity.kudos_count > 0 && (
-              <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
                 <span>👍</span>
                 <span>{activity.kudos_count}</span>
               </div>
             )}
             {activity.comment_count > 0 && (
-              <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
                 <span>💬</span>
                 <span>{activity.comment_count}</span>
               </div>

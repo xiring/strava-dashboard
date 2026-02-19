@@ -138,14 +138,14 @@ export default function ChallengesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader
         title="Custom Challenges"
@@ -160,16 +160,16 @@ export default function ChallengesPage() {
         }
       />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {showAdd && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Add a challenge</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {CHALLENGE_TEMPLATES.map((t, i) => (
                 <button
                   key={i}
                   onClick={() => addChallenge(t)}
-                  className="p-4 text-left rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="p-4 text-left rounded-lg border border-white/40 dark:border-white/10 hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
                 >
                   <span className="font-medium text-gray-900 dark:text-white">{t.name}</span>
                 </button>
@@ -179,7 +179,7 @@ export default function ChallengesPage() {
         )}
 
         {challenges.length === 0 && !showAdd ? (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+          <div className="glass p-12 text-center">
             <p className="text-gray-500 dark:text-gray-400 mb-4">No challenges yet. Add one to get started!</p>
             <button
               onClick={() => setShowAdd(true)}
@@ -196,7 +196,7 @@ export default function ChallengesPage() {
               return (
                 <div
                   key={challenge.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="glass p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">{challenge.name}</h3>

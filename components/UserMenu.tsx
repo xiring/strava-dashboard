@@ -53,7 +53,7 @@ export default function UserMenu({ athlete }: UserMenuProps) {
       {/* User Profile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-palette-light focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800"
+        className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-strava focus:ring-offset-2"
         aria-label="User menu"
         aria-expanded={isOpen}
       >
@@ -61,21 +61,21 @@ export default function UserMenu({ athlete }: UserMenuProps) {
           <img
             src={athlete.profile_medium}
             alt={athlete.firstname}
-            className="w-10 h-10 rounded-full border-2 border-palette-light"
+            className="w-10 h-10 rounded-full border-2 border-strava/30 object-cover"
           />
         )}
         <div className="hidden sm:block text-left">
-          <p className="text-sm font-semibold text-gray-900 dark:text-white">
+          <p className="text-sm font-semibold text-slate-900 dark:text-white">
             {athlete.firstname} {athlete.lastname}
           </p>
           {athlete.city && (
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {athlete.city}, {athlete.state || athlete.country}
             </p>
           )}
         </div>
         <svg
-          className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
+          className={`w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform ${
             isOpen ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -93,11 +93,11 @@ export default function UserMenu({ athlete }: UserMenuProps) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+        <div className="absolute right-0 mt-2 w-52 glass py-2 z-50 animate-slide-up">
           <Link
             href="/settings"
             onClick={() => setIsOpen(false)}
-            className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="flex items-center space-x-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-xl mx-1"
           >
             <span className="text-lg">⚙️</span>
             <span>Settings</span>
@@ -107,7 +107,7 @@ export default function UserMenu({ athlete }: UserMenuProps) {
               setIsOpen(false);
               handleLogout();
             }}
-            className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+            className="w-full flex items-center space-x-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-left rounded-xl mx-1"
           >
             <span className="text-lg">🚪</span>
             <span>Logout</span>

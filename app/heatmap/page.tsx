@@ -46,7 +46,7 @@ export default function HeatmapPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading heatmap...</p>
@@ -56,11 +56,11 @@ export default function HeatmapPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <AppHeader athlete={athlete} />
       <PageHeader title="Activity Heatmap" />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Year Selector */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -70,7 +70,7 @@ export default function HeatmapPage() {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light"
+              className="px-4 py-2.5 rounded-xl border border-white/40 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
             >
               {availableYears.map((year) => (
                 <option key={year} value={year}>
@@ -85,18 +85,18 @@ export default function HeatmapPage() {
         <ActivityHeatmap activities={activities} year={selectedYear} />
 
         {/* Stats */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">Total Activities</div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass p-6">
+            <div className="text-sm text-slate-500 dark:text-slate-400">Total Activities</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {activities.filter(
                 (a) => new Date(a.start_date_local).getFullYear() === selectedYear
               ).length}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">Total Distance</div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="glass p-6">
+            <div className="text-sm text-slate-500 dark:text-slate-400">Total Distance</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {(
                 activities
                   .filter((a) => new Date(a.start_date_local).getFullYear() === selectedYear)
@@ -105,9 +105,9 @@ export default function HeatmapPage() {
               km
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">Active Days</div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="glass p-6">
+            <div className="text-sm text-slate-500 dark:text-slate-400">Active Days</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {
                 new Set(
                   activities

@@ -46,7 +46,7 @@ function getPaceColor(pace: number, averagePace: number, activityType: string): 
 export default function PaceBreakdown({ splits, activityType, averageSpeed }: PaceBreakdownProps) {
   if (!splits || splits.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div className="glass p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Pace Breakdown</h2>
         <p className="text-gray-500 dark:text-gray-400">No split data available for this activity</p>
       </div>
@@ -73,7 +73,7 @@ export default function PaceBreakdown({ splits, activityType, averageSpeed }: Pa
     : (averageSpeed * 3600) / 1000;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div className="glass p-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Pace Breakdown</h2>
       
       {/* Chart */}
@@ -159,7 +159,7 @@ export default function PaceBreakdown({ splits, activityType, averageSpeed }: Pa
               return (
                 <tr 
                   key={index} 
-                  className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="border-b border-gray-100 dark:border-gray-700 hover:bg-white/40 dark:hover:bg-white/5"
                 >
                   <td className="py-3 px-4 text-gray-900 dark:text-white font-medium">
                     {split.split || index + 1}

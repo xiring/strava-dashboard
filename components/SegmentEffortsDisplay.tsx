@@ -26,13 +26,13 @@ export default function SegmentEffortsDisplay({ segmentEfforts }: SegmentEfforts
   if (!segmentEfforts || segmentEfforts.length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <div className="glass p-6 mb-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Segment Efforts</h2>
       <div className="space-y-3">
         {segmentEfforts.map((effort) => (
           <div
             key={effort.id}
-            className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50"
+            className="flex items-center justify-between p-3 rounded-lg bg-white/40 dark:bg-white/5"
           >
             <div className="flex-1 min-w-0">
               <div className="font-semibold text-gray-900 dark:text-white truncate">

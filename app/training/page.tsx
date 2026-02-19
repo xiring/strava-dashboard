@@ -46,7 +46,7 @@ export default function TrainingLoadPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading training data...</p>
@@ -56,11 +56,11 @@ export default function TrainingLoadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader title="Training Load Analysis" />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Period Selector */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -70,7 +70,7 @@ export default function TrainingLoadPage() {
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value as 'week' | 'month')}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light"
+              className="px-4 py-2.5 rounded-xl border border-white/40 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava transition-all"
             >
               <option value="week">Last 4 Weeks</option>
               <option value="month">Last 12 Weeks</option>
@@ -117,25 +117,25 @@ export default function TrainingLoadPage() {
         {/* Current Week Stats */}
         {currentWeek && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+            <div className="glass p-4">
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Volume</div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">
                 {currentWeek.volume.toFixed(1)} km
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+            <div className="glass p-4">
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Time</div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">
                 {currentWeek.time.toFixed(1)}h
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+            <div className="glass p-4">
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Activities</div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">
                 {currentWeek.activities}
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+            <div className="glass p-4">
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Stress Score</div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">
                 {Math.round(currentWeek.stressScore)}
@@ -146,7 +146,7 @@ export default function TrainingLoadPage() {
 
         {/* Training Load Chart */}
         {trainingLoad.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Training Volume Over Time</h2>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={trainingLoad}>
@@ -175,7 +175,7 @@ export default function TrainingLoadPage() {
 
         {/* Training Stress Chart */}
         {trainingLoad.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Training Stress Score</h2>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={trainingLoad}>
@@ -203,7 +203,7 @@ export default function TrainingLoadPage() {
 
         {/* Training Load Table */}
         {trainingLoad.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Weekly Breakdown</h2>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -221,7 +221,7 @@ export default function TrainingLoadPage() {
                   {trainingLoad.map((week, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                      className="border-b border-gray-100 dark:border-gray-700 hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
                     >
                       <td className="py-3 px-4 text-gray-900 dark:text-white">{week.week}</td>
                       <td className="py-3 px-4 text-right text-gray-900 dark:text-white">{week.volume.toFixed(1)}</td>

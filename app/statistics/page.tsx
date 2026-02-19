@@ -139,7 +139,7 @@ export default function StatisticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading statistics...</p>
@@ -149,12 +149,12 @@ export default function StatisticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader title="Statistics & Analytics" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {error && (
           <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 rounded">
             {error}
@@ -162,7 +162,7 @@ export default function StatisticsPage() {
         )}
 
         {/* Time Range Selector */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6">
+        <div className="glass p-4 mb-6">
           <div className="flex items-center space-x-2">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Time Range:</span>
             {(['week', 'month', 'year', 'all'] as const).map((range) => (
@@ -183,23 +183,23 @@ export default function StatisticsPage() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Distance</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {(totals.distance / 1000).toFixed(1)} km
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Activities</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{totals.count}</div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Elevation</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(totals.elevation)} m
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Time</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(totals.time / 3600)}h {Math.round((totals.time % 3600) / 60)}m
@@ -209,7 +209,7 @@ export default function StatisticsPage() {
 
         {/* Daily Activity Chart */}
         {dailyStats.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Daily Activity Overview
             </h2>
@@ -251,7 +251,7 @@ export default function StatisticsPage() {
         {/* Activity Type Breakdown */}
         {typeBreakdown.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div className="glass p-6">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                 Activity Type Distribution
               </h2>
@@ -274,7 +274,7 @@ export default function StatisticsPage() {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div className="glass p-6">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                 Distance by Activity Type
               </h2>
@@ -302,7 +302,7 @@ export default function StatisticsPage() {
 
         {/* Activity Type Table */}
         {typeBreakdown.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Activity Type Summary
             </h2>
@@ -335,7 +335,7 @@ export default function StatisticsPage() {
                     return (
                       <tr
                         key={item.type}
-                        className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="border-b border-gray-100 dark:border-gray-700 hover:bg-white/40 dark:hover:bg-white/5"
                       >
                         <td className="py-3 px-4 text-gray-900 dark:text-white font-medium">
                           {item.type}

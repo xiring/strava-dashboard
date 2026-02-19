@@ -103,7 +103,7 @@ export default function SummaryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading summary...</p>
@@ -113,7 +113,7 @@ export default function SummaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader
         title="Activity Summary"
@@ -136,32 +136,32 @@ export default function SummaryPage() {
         }
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Distance</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {(totals.distance / 1000).toFixed(1)} km
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Activities</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{totals.count}</div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Elevation</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(totals.elevation)} m
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Time</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(totals.time / 3600)}h
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="glass p-6">
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Calories</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round(totals.calories)}
@@ -171,7 +171,7 @@ export default function SummaryPage() {
 
         {/* Weekly Chart */}
         {weeklyData.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Weekly Breakdown
             </h2>
@@ -197,7 +197,7 @@ export default function SummaryPage() {
         )}
 
         {/* Activity Type Breakdown */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div className="glass p-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
             Activity Type Summary
           </h2>
@@ -235,7 +235,7 @@ export default function SummaryPage() {
                   .map(([type, stats]) => (
                     <tr
                       key={type}
-                      className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      className="border-b border-gray-100 dark:border-gray-700 hover:bg-white/40 dark:hover:bg-white/5"
                     >
                       <td className="py-3 px-4 text-gray-900 dark:text-white font-medium">
                         {type}

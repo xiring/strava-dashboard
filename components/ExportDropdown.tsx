@@ -57,7 +57,7 @@ export default function ExportDropdown({ activities }: ExportDropdownProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+        <div className="absolute right-0 mt-2 w-48 glass shadow-lg border border-white/20 dark:border-white/5 py-1 z-50">
           {exportOptions.map((option) => (
             <button
               key={option.label}
@@ -65,7 +65,7 @@ export default function ExportDropdown({ activities }: ExportDropdownProps) {
                 option.action();
                 setIsOpen(false);
               }}
-              className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+              className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/40 dark:hover:bg-white/5 transition-colors text-left"
             >
               <span className="text-lg">{option.icon}</span>
               <span>Export as {option.label}</span>

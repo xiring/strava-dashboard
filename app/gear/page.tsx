@@ -89,7 +89,7 @@ export default function GearPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading gear...</p>
@@ -99,7 +99,7 @@ export default function GearPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader
         title="Gear Tracking"
@@ -113,10 +113,10 @@ export default function GearPage() {
         }
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Add Gear Form */}
         {showAddForm && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Add New Gear</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -127,7 +127,7 @@ export default function GearPage() {
                   type="text"
                   value={newGear.name}
                   onChange={(e) => setNewGear({ ...newGear, name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 border border-white/40 dark:border-white/10 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
                   placeholder="e.g., Road Bike"
                 />
               </div>
@@ -138,7 +138,7 @@ export default function GearPage() {
                 <select
                   value={newGear.type}
                   onChange={(e) => setNewGear({ ...newGear, type: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 border border-white/40 dark:border-white/10 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
                 >
                   <option value="bike">Bike</option>
                   <option value="shoes">Shoes</option>
@@ -153,7 +153,7 @@ export default function GearPage() {
                   type="text"
                   value={newGear.brand}
                   onChange={(e) => setNewGear({ ...newGear, brand: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 border border-white/40 dark:border-white/10 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
                 />
               </div>
               <div>
@@ -164,7 +164,7 @@ export default function GearPage() {
                   type="text"
                   value={newGear.model}
                   onChange={(e) => setNewGear({ ...newGear, model: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 border border-white/40 dark:border-white/10 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
                 />
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function GearPage() {
           {gear.map((item) => (
             <div
               key={item.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-palette-light"
+              className="glass p-6 border-l-4 border-palette-light"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -231,7 +231,7 @@ export default function GearPage() {
         </div>
 
         {gear.length === 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+          <div className="glass p-12 text-center">
             <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
               No gear tracked yet.
             </p>

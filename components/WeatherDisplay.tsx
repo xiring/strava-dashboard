@@ -62,7 +62,7 @@ export default function WeatherDisplay({ lat, lon, timestamp }: WeatherDisplayPr
   }
 
   return (
-    <div className="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="flex items-center space-x-4 p-4 glass">
       {weather.icon && (
         <img
           src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}

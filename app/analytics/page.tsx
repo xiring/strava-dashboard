@@ -164,7 +164,7 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-light mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading analytics...</p>
@@ -174,14 +174,14 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen">
       <AppHeader athlete={athlete} />
       <PageHeader title="Advanced Analytics" />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
         {/* Personal Insights */}
         {insights.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Personal Insights</h2>
             <div className="space-y-3">
               {insights.map((insight, i) => (
@@ -192,7 +192,7 @@ export default function AnalyticsPage() {
                       ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
                       : insight.type === 'positive'
                         ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-                        : 'bg-gray-50 dark:bg-gray-700/50'
+                        : 'bg-white/40 dark:bg-white/5'
                   }`}
                 >
                   <span className="text-2xl">{insight.icon}</span>
@@ -212,7 +212,7 @@ export default function AnalyticsPage() {
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value as any)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-palette-light"
+              className="px-4 py-2 border border-white/40 dark:border-white/10 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-strava/50 focus:border-strava"
             >
               <option value="week">Last Week</option>
               <option value="month">Last Month</option>
@@ -224,7 +224,7 @@ export default function AnalyticsPage() {
 
         {/* Activity Type Distribution */}
         {typeDistribution.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Activity Type Distribution</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -250,7 +250,7 @@ export default function AnalyticsPage() {
 
         {/* Pace Zones */}
         {paceZones.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Pace Zone Distribution (Running)</h2>
             <div className="space-y-3 mb-4">
               {paceZones.map((zone) => (
@@ -273,7 +273,7 @@ export default function AnalyticsPage() {
 
         {/* Estimated Race Times */}
         {raceTimes.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Estimated Race Times</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               Based on your recent best efforts (Riegel formula)
@@ -282,7 +282,7 @@ export default function AnalyticsPage() {
               {raceTimes.map((rt) => (
                 <div
                   key={rt.distance}
-                  className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-center"
+                  className="p-4 rounded-lg bg-white/40 dark:bg-white/5 text-center"
                 >
                   <div className="font-bold text-gray-900 dark:text-white">{rt.distance}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -299,7 +299,7 @@ export default function AnalyticsPage() {
 
         {/* Correlation: Distance vs Heart Rate */}
         {correlationData.length >= 3 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Distance vs Heart Rate (Runs)
             </h2>
@@ -325,7 +325,7 @@ export default function AnalyticsPage() {
 
         {/* Power Curve */}
         {powerCurve.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Power Curve (Estimated)</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={powerCurve}>
@@ -348,7 +348,7 @@ export default function AnalyticsPage() {
 
         {/* Heart Rate Zones */}
         {heartRateZones && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Heart Rate Zone Distribution</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={heartRateZones}>
@@ -370,7 +370,7 @@ export default function AnalyticsPage() {
 
         {/* Cadence Analysis */}
         {cadenceData.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="glass p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Cadence Trend</h2>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={cadenceData}>

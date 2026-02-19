@@ -15,7 +15,7 @@ export default function RateLimitError({ retryAfter, rateLimitUsage, rateLimitLi
   };
 
   return (
-    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-6 mb-6">
       <div className="flex items-start">
         <div className="flex-shrink-0">
           <svg

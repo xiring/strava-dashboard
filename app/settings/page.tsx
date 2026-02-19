@@ -7,6 +7,7 @@ import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
 import { useTheme } from '@/components/ThemeProvider';
 import AccessibilityControls from '@/components/AccessibilityControls';
+import { FormField, Input, Select, Button } from '@/components/ui';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
@@ -53,70 +54,60 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <AppHeader athlete={athlete} />
       <PageHeader title="Settings" />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Preferences</h2>
+      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
+        <div className="glass p-6 mb-6">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Preferences</h2>
           
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Theme
-              </label>
-              <select
+          <div className="space-y-6 max-w-md">
+            <FormField label="Theme">
+              <Select
                 value={preferences.theme}
                 onChange={(e) => handleThemeChange(e.target.value as 'light' | 'dark' | 'auto')}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="auto">Auto (System)</option>
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
-              </select>
-            </div>
+              </Select>
+            </FormField>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Items Per Page
-              </label>
-              <input
+            <FormField label="Items Per Page" hint="Number of activities to show per page (6–24)">
+              <Input
                 type="number"
-                min="6"
-                max="24"
+                min={6}
+                max={24}
                 value={preferences.itemsPerPage}
                 onChange={(e) =>
-                  setPreferences({ ...preferences, itemsPerPage: parseInt(e.target.value) })
+                  setPreferences({ ...preferences, itemsPerPage: parseInt(e.target.value) || 12 })
                 }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
+            </FormField>
+
+            <div className="flex items-center gap-3 pt-2">
+              <Button onClick={savePreferences} size="lg">
+                Save Preferences
+              </Button>
+              {saved && (
+                <span className="text-sm text-emerald-600 dark:text-emerald-400 font-medium animate-fade-in">
+                  ✓ Saved
+                </span>
+              )}
             </div>
-
-            <button
-              onClick={savePreferences}
-              className="px-6 py-3 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
-            >
-              Save Preferences
-            </button>
-
-            {saved && (
-              <div className="p-4 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-200 rounded">
-                Preferences saved!
-              </div>
-            )}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Data Management</h2>
+        <div className="glass p-6 mb-6">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Data Management</h2>
           
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          <div className="space-y-6">
+            <div className="p-4 rounded-xl bg-white/40 dark:bg-white/5 backdrop-blur-sm">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
                 Sync All Activities
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                 Sync all your activities from Strava to the local database. This may take a few minutes depending on how many activities you have.
               </p>
               <button
@@ -140,17 +131,17 @@ export default function SettingsPage() {
                     }
                   }
                 }}
-                className="px-4 py-2 bg-palette-light hover:bg-palette-medium text-palette-darkest font-semibold rounded-lg transition-colors"
+                className="px-4 py-2.5 bg-strava hover:bg-strava-hover text-white font-semibold rounded-xl transition-colors"
               >
                 Sync All Activities
               </button>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <div className="p-4 rounded-xl bg-white/40 dark:bg-white/5 backdrop-blur-sm">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
                 Clear Cache
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                 Clear all cached data. This will force fresh data to be loaded from Strava API.
               </p>
               <button
@@ -160,17 +151,17 @@ export default function SettingsPage() {
                     window.location.reload();
                   }
                 }}
-                className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-colors"
+                className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-colors"
               >
                 Clear Cache
               </button>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <div className="p-4 rounded-xl bg-white/40 dark:bg-white/5 backdrop-blur-sm">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
                 Export Data
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                 Export your preferences and saved data.
               </p>
               <button
@@ -189,7 +180,7 @@ export default function SettingsPage() {
                   link.download = 'strava-dashboard-data.json';
                   link.click();
                 }}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                className="px-4 py-2.5 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-xl transition-colors"
               >
                 Export Settings
               </button>
@@ -202,9 +193,9 @@ export default function SettingsPage() {
           <AccessibilityControls />
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">About</h2>
-          <div className="space-y-2 text-gray-600 dark:text-gray-400">
+        <div className="glass p-6">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">About</h2>
+          <div className="space-y-2 text-slate-600 dark:text-slate-400">
             <p>Strava Dashboard v1.0.0</p>
             <p>Built with Next.js, React, and Tailwind CSS</p>
             <p className="mt-4">
@@ -212,7 +203,7 @@ export default function SettingsPage() {
                 href="https://www.strava.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-palette-dark hover:text-palette-darkest"
+                className="text-strava hover:text-strava-hover font-medium"
               >
                 Powered by Strava API
               </a>

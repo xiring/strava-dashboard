@@ -31,6 +31,7 @@ const navGroups = [
   {
     label: 'Tools',
     items: [
+      { href: '/chat', label: 'Assistant', icon: '💬', description: 'Search & explore activities' },
       { href: '/routes', label: 'Routes', icon: '🗺️', description: 'Route planning' },
       { href: '/gear', label: 'Gear', icon: '🚴', description: 'Gear tracking' },
     ],

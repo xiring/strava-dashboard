@@ -12,6 +12,8 @@ import { StatsCardSkeleton, ActivityListSkeleton } from '@/components/LoadingSke
 import AppHeader from '@/components/AppHeader';
 import StreakDisplay from '@/components/StreakDisplay';
 import BestEffortsDisplay from '@/components/BestEffortsDisplay';
+import AchievementBadges from '@/components/AchievementBadges';
+import RaceTimePredictor from '@/components/RaceTimePredictor';
 import DashboardWidget from '@/components/DashboardWidget';
 import { calculateStreaks } from '@/lib/streaks';
 import ThisDayLastYear from '@/components/ThisDayLastYear';
@@ -29,7 +31,7 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(false);
   const [widgets, setWidgets] = useState<string[]>(() => {
     const saved = storage.preferences.get() as any;
-    return saved?.dashboardWidgets || ['stats', 'streaks', 'chart', 'cumulativeDistance', 'thisDayLastYear', 'activities'];
+    return saved?.dashboardWidgets || ['stats', 'streaks', 'achievements', 'raceTimes', 'chart', 'cumulativeDistance', 'thisDayLastYear', 'activities'];
   });
 
   useEffect(() => {
@@ -241,6 +243,36 @@ export default function Home() {
               }}
             >
               <StreakDisplay streaks={calculateStreaks(activities)} />
+            </DashboardWidget>
+          )}
+
+          {widgets.includes('achievements') && activities.length > 0 && (
+            <DashboardWidget
+              id="achievements"
+              title="Achievements"
+              onRemove={() => {
+                const newWidgets = widgets.filter((w) => w !== 'achievements');
+                setWidgets(newWidgets);
+                const prefs = storage.preferences.get() as any;
+                storage.preferences.set({ ...prefs, dashboardWidgets: newWidgets });
+              }}
+            >
+              <AchievementBadges activities={activities} />
+            </DashboardWidget>
+          )}
+
+          {widgets.includes('raceTimes') && activities.length > 0 && (
+            <DashboardWidget
+              id="raceTimes"
+              title="Race Time Predictor"
+              onRemove={() => {
+                const newWidgets = widgets.filter((w) => w !== 'raceTimes');
+                setWidgets(newWidgets);
+                const prefs = storage.preferences.get() as any;
+                storage.preferences.set({ ...prefs, dashboardWidgets: newWidgets });
+              }}
+            >
+              <RaceTimePredictor activities={activities} />
             </DashboardWidget>
           )}
 

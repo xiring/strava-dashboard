@@ -21,6 +21,9 @@ export default function Footer() {
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
               Your personal Strava activity tracker with advanced analytics, training insights, and more.
             </p>
+            <p className="text-xs text-slate-500 dark:text-slate-500 mb-4">
+              Press <kbd className="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded text-[10px]">?</kbd> for keyboard shortcuts
+            </p>
             <div className="flex items-center space-x-4">
               <a
                 href="https://www.strava.com"
@@ -72,6 +75,14 @@ export default function Footer() {
                   className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
                 >
                   Goals
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/achievements"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-strava transition-colors"
+                >
+                  Achievements
                 </Link>
               </li>
             </ul>

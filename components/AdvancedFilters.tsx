@@ -101,6 +101,46 @@ export default function AdvancedFilters({ onFilterChange, activityTypes }: Advan
             </div>
           </FormField>
 
+          <FormField label="Quick Date Presets">
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: 'Last 7 days', getRange: () => {
+                  const end = new Date();
+                  const start = new Date();
+                  start.setDate(start.getDate() - 7);
+                  return { start: start.toISOString().split('T')[0], end: end.toISOString().split('T')[0] };
+                }},
+                { label: 'Last 30 days', getRange: () => {
+                  const end = new Date();
+                  const start = new Date();
+                  start.setDate(start.getDate() - 30);
+                  return { start: start.toISOString().split('T')[0], end: end.toISOString().split('T')[0] };
+                }},
+                { label: 'This month', getRange: () => {
+                  const now = new Date();
+                  const start = new Date(now.getFullYear(), now.getMonth(), 1);
+                  const end = new Date();
+                  return { start: start.toISOString().split('T')[0], end: end.toISOString().split('T')[0] };
+                }},
+                { label: 'This year', getRange: () => {
+                  const now = new Date();
+                  const start = new Date(now.getFullYear(), 0, 1);
+                  const end = new Date();
+                  return { start: start.toISOString().split('T')[0], end: end.toISOString().split('T')[0] };
+                }},
+                { label: 'Clear dates', getRange: () => ({ start: '', end: '' }) },
+              ].map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => handleFilterChange('dateRange', preset.getRange())}
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          </FormField>
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Start Date">
               <Input

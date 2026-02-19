@@ -2,6 +2,27 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { syncService } from '@/lib/sync';
 import { getValidAccessToken } from '@/lib/auth';
+import type { StravaAthlete } from '@/lib/strava';
+
+function toStravaAthlete(db: { id: number; username?: string | null; firstname: string; lastname: string; profile?: string | null; profile_medium?: string | null; city?: string | null; state?: string | null; country?: string | null; sex?: string | null; weight?: number | null; follower_count: number; friend_count: number; measurement_preference?: string | null; ftp?: number | null }): StravaAthlete {
+  return {
+    id: db.id,
+    username: db.username ?? '',
+    firstname: db.firstname,
+    lastname: db.lastname,
+    profile: db.profile ?? '',
+    profile_medium: db.profile_medium ?? '',
+    city: db.city ?? '',
+    state: db.state ?? '',
+    country: db.country ?? '',
+    sex: db.sex ?? '',
+    weight: db.weight ?? 0,
+    follower_count: db.follower_count,
+    friend_count: db.friend_count,
+    measurement_preference: db.measurement_preference ?? '',
+    ftp: db.ftp ?? undefined,
+  };
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,8 +35,7 @@ export async function GET(request: NextRequest) {
     stravaClient.setAccessToken(tokenData.accessToken);
     
     // Sync athlete first to get the athlete ID
-    let athlete = await syncService.syncAthlete().catch(async () => {
-      // If sync fails, get directly from API
+    let athlete: StravaAthlete | null = await syncService.syncAthlete().catch(async () => {
       return await stravaClient.getAthlete();
     });
     
@@ -29,9 +49,9 @@ export async function GET(request: NextRequest) {
     const athleteId = athlete.id;
 
     // Try to get from database
-    let dbAthlete = await db.getAthlete(athleteId);
+    const dbAthlete = await db.getAthlete(athleteId);
     if (dbAthlete && !forceSync) {
-      athlete = dbAthlete;
+      athlete = toStravaAthlete(dbAthlete);
     }
 
     // Get stats

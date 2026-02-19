@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { QueryProvider } from '@/components/QueryProvider'
 import Footer from '@/components/Footer'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
+import KeyboardShortcuts from '@/components/KeyboardShortcuts'
 
 const font = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({
               <body className={`${font.className} flex flex-col min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-50`}>
                 <ThemeProvider>
                   <QueryProvider>
+                  <KeyboardShortcuts />
                   <PerformanceMonitor />
                   <div className="flex-1">
                     {children}

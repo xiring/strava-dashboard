@@ -49,8 +49,8 @@ export default function GoalsPage() {
   }, []);
 
   const loadGoals = () => {
-    const saved = storage.preferences.get();
-    setGoals(saved.goals || []);
+    const saved = storage.preferences.get() as { goals?: Goal[] } | null;
+    setGoals(saved?.goals || []);
   };
 
   const loadActivities = async () => {

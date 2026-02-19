@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { StravaActivity, StravaAthlete } from '@/lib/strava';
 import ActivityCard from '@/components/ActivityCard';
@@ -11,6 +11,7 @@ import { ActivityCardSkeleton } from '@/components/LoadingSkeleton';
 import AppHeader from '@/components/AppHeader';
 import PageHeader from '@/components/PageHeader';
 import { FormField, Input, Select } from '@/components/ui';
+import { storage } from '@/lib/storage';
 
 type SortOption = 'date_desc' | 'date_asc' | 'distance_desc' | 'distance_asc' | 'duration_desc' | 'duration_asc';
 type ActivityType = 'All' | 'Run' | 'Ride' | 'Walk' | 'Hike' | 'Swim' | 'Workout';
@@ -26,7 +27,9 @@ export default function AllActivitiesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedFilters, setAdvancedFilters] = useState<FilterState | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const [showRecentSearches, setShowRecentSearches] = useState(false);
   const activitiesPerPage = 12;
+  const recentSearches = storage.recentSearches.get() ?? [];
 
   useEffect(() => {
     const fetchAthlete = async () => {
@@ -72,6 +75,13 @@ export default function AllActivitiesPage() {
     }, 300);
     debounced();
   }, [searchQuery]);
+
+  // Add to recent searches when user searches (non-empty, applied)
+  useEffect(() => {
+    if (searchDebounced.trim()) {
+      storage.recentSearches.add(searchDebounced.trim());
+    }
+  }, [searchDebounced]);
 
   // Filter and sort activities
   const filteredAndSortedActivities = useMemo(() => {
@@ -185,6 +195,14 @@ export default function AllActivitiesPage() {
   }, [filterType, searchQuery, sortBy, advancedFilters]);
 
   const activityTypes: ActivityType[] = ['All', 'Run', 'Ride', 'Walk', 'Hike', 'Swim', 'Workout'];
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Listen for keyboard shortcut to focus search
+  useEffect(() => {
+    const handler = () => searchInputRef.current?.focus();
+    window.addEventListener('strava-focus-search', handler);
+    return () => window.removeEventListener('strava-focus-search', handler);
+  }, []);
 
   if (loading) {
     return (
@@ -234,12 +252,51 @@ export default function AllActivitiesPage() {
         <div className="glass p-6 mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <FormField label="Search">
-              <Input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search activities..."
-              />
+              <div className="relative">
+                <Input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setShowRecentSearches(true)}
+                  onBlur={() => setTimeout(() => setShowRecentSearches(false), 150)}
+                  placeholder="Search activities... (press / to focus)"
+                />
+                {showRecentSearches && recentSearches.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 z-50 glass rounded-xl overflow-hidden shadow-lg border border-white/20 dark:border-white/5">
+                    <div className="p-2 border-b border-white/10">
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Recent searches</span>
+                    </div>
+                    <ul className="max-h-48 overflow-y-auto">
+                      {recentSearches.map((s) => (
+                        <li key={s}>
+                          <button
+                            type="button"
+                            className="w-full px-4 py-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
+                            onClick={() => {
+                              setSearchQuery(s);
+                              setShowRecentSearches(false);
+                              searchInputRef.current?.blur();
+                            }}
+                          >
+                            {s}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        storage.recentSearches.set([]);
+                        setShowRecentSearches(false);
+                      }}
+                      className="w-full px-4 py-2 text-xs text-slate-500 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/5"
+                    >
+                      Clear recent
+                    </button>
+                  </div>
+                )}
+              </div>
             </FormField>
 
             <FormField label="Activity Type">

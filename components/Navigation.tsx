@@ -38,6 +38,7 @@ const navGroups = [
     {
       label: 'Reports',
       items: [
+        { href: '/achievements', label: 'Achievements', icon: '🏅', description: 'Badges & milestones' },
         { href: '/summary', label: 'Summary', icon: '📋', description: 'Reports' },
         { href: '/records', label: 'Records', icon: '🏆', description: 'Personal bests' },
         { href: '/compare', label: 'Compare', icon: '⚖️', description: 'Compare activities' },

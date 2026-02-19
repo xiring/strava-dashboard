@@ -128,8 +128,8 @@ export default function ChallengesPage() {
     } else if (challenge.type === 'activities') {
       current = filtered.length;
     } else if (challenge.type === 'streak') {
-      const streaks = calculateStreaks(activities, challenge.activityTypes);
-      current = streaks[0]?.count ?? 0;
+      const streakInfo = calculateStreaks(filtered);
+      current = Math.max(streakInfo.current, streakInfo.longest);
     }
 
     const progress = Math.min((current / challenge.target) * 100, 100);

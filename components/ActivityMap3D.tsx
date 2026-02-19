@@ -9,10 +9,10 @@ import Map, {
   NavigationControl,
   Source,
   type LayerProps,
-} from 'react-map-gl';
+} from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
 import { decodePolyline } from '@/lib/polyline';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface ActivityMap3DProps {
   polyline: string;

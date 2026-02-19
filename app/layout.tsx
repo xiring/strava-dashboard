@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { QueryProvider } from '@/components/QueryProvider'
 import Footer from '@/components/Footer'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 
@@ -36,11 +37,13 @@ export default function RootLayout({
       </head>
               <body className={`${inter.className} flex flex-col min-h-screen`}>
                 <ThemeProvider>
+                  <QueryProvider>
                   <PerformanceMonitor />
                   <div className="flex-1">
                     {children}
                   </div>
                   <Footer />
+                  </QueryProvider>
                 </ThemeProvider>
               </body>
     </html>

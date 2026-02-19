@@ -10,7 +10,7 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, actions, showBack = true }: PageHeaderProps) {
   return (
-    <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-white/20 dark:border-white/5 sticky top-16 z-30">
+    <div className="no-print bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-white/20 dark:border-white/5 sticky top-16 z-30">
       <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-3 flex-shrink-0">

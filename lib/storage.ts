@@ -79,5 +79,22 @@ export const storage = {
       return favorites.includes(id);
     },
   },
+  activityRatings: {
+    get: () => getStorageItem<Record<string, number>>('activity_ratings', {}),
+    set: (ratings: Record<string, number>) => setStorageItem('activity_ratings', ratings),
+    getRating: (activityId: number) => {
+      const ratings = storage.activityRatings.get() || {};
+      return ratings[String(activityId)] ?? null;
+    },
+    setRating: (activityId: number, rating: number) => {
+      const ratings = { ...(storage.activityRatings.get() || {}) };
+      if (rating >= 1 && rating <= 5) {
+        ratings[String(activityId)] = rating;
+      } else {
+        delete ratings[String(activityId)];
+      }
+      setStorageItem('activity_ratings', ratings);
+    },
+  },
 };
 

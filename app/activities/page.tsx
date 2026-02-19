@@ -24,6 +24,7 @@ export default function AllActivitiesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<SortOption>('date_desc');
   const [filterType, setFilterType] = useState<ActivityType>('All');
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedFilters, setAdvancedFilters] = useState<FilterState | null>(null);
   const [totalPages, setTotalPages] = useState(1);
@@ -90,6 +91,12 @@ export default function AllActivitiesPage() {
     // Filter by type
     if (filterType !== 'All') {
       filtered = filtered.filter((activity) => activity.type === filterType);
+    }
+
+    // Filter by favorites
+    if (favoritesOnly) {
+      const favorites = storage.favoriteActivities.get() || [];
+      filtered = filtered.filter((activity) => favorites.includes(activity.id));
     }
 
     // Filter by search query (using debounced value)
@@ -192,7 +199,7 @@ export default function AllActivitiesPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterType, searchQuery, sortBy, advancedFilters]);
+  }, [filterType, favoritesOnly, searchQuery, sortBy, advancedFilters]);
 
   const activityTypes: ActivityType[] = ['All', 'Run', 'Ride', 'Walk', 'Hike', 'Swim', 'Workout'];
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -310,6 +317,18 @@ export default function AllActivitiesPage() {
                   </option>
                 ))}
               </Select>
+            </FormField>
+
+            <FormField label="Favorites">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={favoritesOnly}
+                  onChange={(e) => setFavoritesOnly(e.target.checked)}
+                  className="rounded border-slate-300 text-strava focus:ring-strava"
+                />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Favorites only</span>
+              </label>
             </FormField>
 
             <FormField label="Sort By">

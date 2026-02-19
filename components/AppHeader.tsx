@@ -11,7 +11,7 @@ interface AppHeaderProps {
 
 export default function AppHeader({ athlete }: AppHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/20 dark:border-white/5 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl">
+    <header className="no-print sticky top-0 z-40 border-b border-white/20 dark:border-white/5 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl">
       <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

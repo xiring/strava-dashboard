@@ -10,6 +10,7 @@ import PaceBreakdown from '@/components/PaceBreakdown';
 import ActivityNotes from '@/components/ActivityNotes';
 import WeatherDisplay from '@/components/WeatherDisplay';
 import FavoriteButton from '@/components/FavoriteButton';
+import ActivityRating from '@/components/ActivityRating';
 import SegmentEffortsDisplay from '@/components/SegmentEffortsDisplay';
 import ActivityPhotos from '@/components/ActivityPhotos';
 import ShareableActivityCard from '@/components/ShareableActivityCard';
@@ -202,10 +203,18 @@ export default function ActivityDetailPage() {
 
       {/* Main Content */}
       <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
-        {/* Keyboard shortcut hint */}
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+        {/* Keyboard shortcut hint & Print */}
+        <div className="no-print flex items-center justify-between mb-2">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
           <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">j</kbd> next · <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">k</kbd> previous
-        </p>
+          </p>
+          <button
+            onClick={() => window.print()}
+            className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-strava"
+          >
+            🖨️ Print
+          </button>
+        </div>
 
         {/* Activity Header */}
         <div className="glass p-6 mb-6">
@@ -213,6 +222,7 @@ export default function ActivityDetailPage() {
             <div className="flex items-center space-x-4">
               <div className="text-4xl">{getActivityIcon(activity.type)}</div>
               <FavoriteButton activityId={activity.id} size="lg" className="ml-2" />
+              <ActivityRating activityId={activity.id} size="md" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {activity.name}

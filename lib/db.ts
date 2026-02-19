@@ -172,7 +172,7 @@ export class DatabaseService {
     return await prisma.activity.count({ where });
   }
 
-  async getActivityNeighbors(activityId: number): Promise<{ prev: number | null; next: number | null }> {
+  async getActivityNeighbors(activityId: string): Promise<{ prev: number | null; next: number | null }> {
     const current = await prisma.activity.findUnique({
       where: { id: activityId },
       select: { start_date: true },
@@ -192,8 +192,8 @@ export class DatabaseService {
       }),
     ]);
     return {
-      prev: prevAct?.id ?? null,
-      next: nextAct?.id ?? null,
+      prev: prevAct?.id != null ? parseInt(prevAct.id, 10) : null,
+      next: nextAct?.id != null ? parseInt(nextAct.id, 10) : null,
     };
   }
 

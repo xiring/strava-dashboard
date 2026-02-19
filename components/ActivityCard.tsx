@@ -3,6 +3,8 @@
 import { StravaActivity } from '@/lib/strava';
 import { getActivityIcon } from '@/lib/activityIcons';
 import Link from 'next/link';
+import ActivityRating from '@/components/ActivityRating';
+import { exportToGpx, exportToTcx, downloadFile } from '@/lib/exportFormats';
 
 interface ActivityCardProps {
   activity: StravaActivity;
@@ -70,6 +72,24 @@ function getActivityColor(type: string): string {
 }
 
 export default function ActivityCard({ activity }: ActivityCardProps) {
+  const polyline = (activity as any).map?.summary_polyline;
+
+  const handleExportGpx = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!polyline) return;
+    const gpx = exportToGpx(polyline, activity.name, activity.start_date, activity.type);
+    if (gpx) downloadFile(gpx, `${activity.name.replace(/[^\w\d-_]+/g, '_')}.gpx`, 'application/gpx+xml');
+  };
+
+  const handleExportTcx = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!polyline) return;
+    const tcx = exportToTcx(polyline, activity.name, activity.start_date, activity.moving_time, activity.distance, activity.type);
+    if (tcx) downloadFile(tcx, `${activity.name.replace(/[^\w\d-_]+/g, '_')}.tcx`, 'application/vnd.garmin.tcx+xml');
+  };
+
   return (
     <Link href={`/activities/${activity.id}`}>
       <div className="glass p-6 cursor-pointer h-full card-hover">
@@ -89,6 +109,27 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
+            <ActivityRating activityId={activity.id} size="sm" />
+            {polyline && (
+              <div className="flex gap-1">
+                <button
+                  onClick={handleExportGpx}
+                  className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300"
+                  title="Export GPX"
+                >
+                  GPX
+                </button>
+                <button
+                  onClick={handleExportTcx}
+                  className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300"
+                  title="Export TCX"
+                >
+                  TCX
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

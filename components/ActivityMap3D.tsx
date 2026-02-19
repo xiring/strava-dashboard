@@ -407,7 +407,6 @@ export default function ActivityMap3D({
           }}
           terrain={{ source: 'terrarium-dem', exaggeration: 1.5 }}
           style={{ width: '100%', height: '100%' }}
-          projection={{ name: 'mercator' }}
         >
           <NavigationControl position="top-right" />
           <FullscreenControl position="top-right" />

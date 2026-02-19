@@ -119,3 +119,29 @@ body::before {
   color: var(--contrast-text) !important;
 }
 
+/* Print-friendly styles */
+@media print {
+  body::before {
+    display: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print\:block {
+    display: block !important;
+  }
+  .glass {
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  body {
+    background: white;
+    color: #0f172a;
+  }
+  a[href]::after {
+    content: none;
+  }
+}
+
